@@ -1,6 +1,7 @@
 import AppSearchAPIConnector from "@elastic/search-ui-app-search-connector";
 import { SearchBox, SearchProvider, Facet, Sorting } from "@elastic/react-search-ui";
-import MultiCheckboxFacet from "./MultiCheckboxFacet";
+// import MultiCheckboxFacet from "./MultiCheckboxFacet";
+import { MultiCheckboxFacet } from "@elastic/react-search-ui-views";
 import Results from "./Results"
 import Nav from "./Nav"
 import {
