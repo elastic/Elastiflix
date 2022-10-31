@@ -2,8 +2,8 @@ import PropTypes from "prop-types";
 import React from "react";
 import humanizeString from 'humanize-string'
 
-import { FacetValue } from "@elastic/react-search-ui-views/lib/types";
-import { appendClassName, getFilterValueDisplay } from "@elastic/react-search-ui-views/lib/view-helpers";
+import { FacetValue } from "@elastic/react-search-ui-views";
+import { appendClassName, getFilterValueDisplay } from "@elastic/react-search-ui-views";
 
 function MultiCheckboxFacet({
   className,
