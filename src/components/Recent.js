@@ -6,9 +6,9 @@ import ComingSoon from '../coming-soon.png'
 function Recent(props) {
 
   const connector = new AppSearchAPIConnector({
-    searchKey: window._env_.AS_SEARCH_API_KEY,
-    engineName: window._env_.ENGINE_NAME,
-    endpointBase: window._env_.AS_BASE_URL,
+    searchKey: process.env.REACT_APP_AS_SEARCH_API_KEY,
+    engineName: process.env.REACT_APP_ENGINE_NAME,
+    endpointBase: process.env.REACT_APP_AS_BASE_URL,
     cacheResponses: false
   })
 
