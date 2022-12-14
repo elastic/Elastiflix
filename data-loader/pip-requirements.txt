@@ -1,8 +1,8 @@
 certifi==2021.5.30
 charset-normalizer==2.0.4
-elastic-enterprise-search==7.14.0
-elastic-transport==7.14.0
-elasticsearch==7.14.1
+elastic-enterprise-search==8.4.0
+elastic-transport==8.4.0
+elasticsearch==8.4.0
 idna==3.2
 PyJWT==1.7.1
 python-dateutil==2.8.2
