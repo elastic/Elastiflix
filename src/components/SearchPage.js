@@ -11,6 +11,21 @@ import {
   EuiIcon,
 } from '@elastic/eui';
 
+const renderInput = ({ getAutocomplete, getInputProps, getButtonProps }) => {
+  return (
+    <div className="search-box">
+      <EuiIcon className="search-box__icon" type="search" />
+      <input
+        {...getInputProps({
+          className: "search-box__input",
+          placeholder: "Movie, cast..."
+        })}
+      />
+      {getAutocomplete()}
+    </div>
+  )
+}
+
 
 function SearchPage() {
   const connector = new AppSearchAPIConnector({
@@ -78,20 +93,7 @@ function SearchPage() {
     }
   };
 
-  const renderInput = ({ getAutocomplete, getInputProps, getButtonProps }) => {
-    return (
-      <div className="search-box">
-        <EuiIcon className="search-box__icon" type="search" />
-        <input
-          {...getInputProps({
-            className: "search-box__input",
-            placeholder: "Movie, cast..."
-          })}
-        />
-        {getAutocomplete()}
-      </div>
-    )
-  }
+  
 
   return (
 

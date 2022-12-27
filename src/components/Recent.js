@@ -38,6 +38,7 @@ function Recent(props) {
 
               results.filter(r => r.poster_path.raw !== null).map(r =>
                 <img
+                  key={r.id.raw}
                   className="row__poster row__posterLarge"
                   src={!r.poster_path.raw ? ComingSoon : `https://image.tmdb.org/t/p/original/${r.poster_path.raw}`}
                   alt={r.title.raw}

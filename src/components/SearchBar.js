@@ -9,6 +9,22 @@ import { useHistory } from "react-router-dom";
 import AppSearchAPIConnector from "@elastic/search-ui-app-search-connector";
 import { SearchProvider } from "@elastic/react-search-ui";
 
+
+const renderInput = ({ getAutocomplete, getInputProps, getButtonProps }) => {
+    return (
+        <div className="search-box">
+            <EuiIcon className="search-box__icon" type="search" />
+            <input
+                {...getInputProps({
+                    className: "search-box__input",
+                    placeholder: "Search by title, cast name..."
+                })}
+            />
+            {getAutocomplete()}
+        </div>
+    )
+}
+
 function SearchBar() {
 
     const connector = new AppSearchAPIConnector({
@@ -45,20 +61,7 @@ function SearchBar() {
         }
     };
 
-    const renderInput = ({ getAutocomplete, getInputProps, getButtonProps }) => {
-        return (
-            <div className="search-box">
-                <EuiIcon className="search-box__icon" type="search" />
-                <input
-                    {...getInputProps({
-                        className: "search-box__input",
-                        placeholder: "Search by title, cast name..."
-                    })}
-                />
-                {getAutocomplete()}
-            </div>
-        )
-    }
+    
 
     const history = useHistory();
 

@@ -9,7 +9,7 @@ function Home() {
         <div className="app">
             <Nav showSearch={true}/>
             <Header />
-            <div class="recommendations">
+            <div className="recommendations">
                 <Popular />
                 <Recent />
             </div>
