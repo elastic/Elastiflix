@@ -1,7 +1,7 @@
 import AppSearchAPIConnector from "@elastic/search-ui-app-search-connector";
 import { SearchBox, SearchProvider, Facet, Sorting } from "@elastic/react-search-ui";
 // import MultiCheckboxFacet from "./MultiCheckboxFacet";
-import { MultiCheckboxFacet } from "@elastic/react-search-ui-views";
+
 import Results from "./Results"
 import Nav from "./Nav"
 import {
@@ -44,9 +44,8 @@ function SearchPage() {
         resultsPerPage: 3,
         result_fields: {
           title: {
-            snippet: {
-              size: 100,
-              fallback: true
+            raw: {
+              size: 100
             }
           }
         }
@@ -61,12 +60,13 @@ function SearchPage() {
       }
     },
     searchQuery: {
+      disjunctiveFacets: ["genres"],
       resultsPerPage: 10,
       result_fields: {
-        title: { snippet: { size: 100, fallback: true }, raw: {} },
+        title: { raw: { size: 100 }, raw: {} },
         poster_path: { raw: {} },
         release_date: { raw: {} },
-        overview: { snippet: { size: 300, fallback: true } },
+        overview: { raw: { size: 300 } },
         cast: { raw: {} }
       },
       facets: {
@@ -130,20 +130,7 @@ function SearchPage() {
               }]}
           />
         </div>
-        <EuiFlexGroup>
-          <EuiFlexItem grow={false}>
-            <EuiSpacer />
-            <EuiFlexGroup gutterSize="xs" direction="column" style={{ paddingLeft: "40px" }}>
-              {/* <DateSelectFacet field="release_date" /> */}
-              <EuiFlexItem grow={false}><Facet field="cast" label="Cast member" showSearch={true} view={MultiCheckboxFacet} /></EuiFlexItem>
-              <EuiFlexItem grow={false}><Facet field="genres" label="Genres" showSearch={true} view={MultiCheckboxFacet} /></EuiFlexItem>
-              <EuiFlexItem grow={false}><Facet field="user_score" label="User score" view={MultiCheckboxFacet} /></EuiFlexItem>
-              <EuiFlexItem grow={false}><Facet field="runtime" label="Runtime" view={MultiCheckboxFacet} /></EuiFlexItem>
-              <EuiFlexItem grow={false}><Facet field="production_companies" showSearch={true} label="Production company" view={MultiCheckboxFacet} /></EuiFlexItem>
-            </EuiFlexGroup>
-          </EuiFlexItem>
           <Results />
-        </EuiFlexGroup>
       </div>
 
     </SearchProvider>

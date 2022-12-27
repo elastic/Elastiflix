@@ -40,24 +40,22 @@ function SearchBar() {
         alwaysSearchOnInitialLoad: false,
         autocompleteQuery: {
             results: {
-                resultsPerPage: 3,
                 result_fields: {
                     title: {
                         snippet: {
-                            size: 100,
-                            fallback: true
+                            size: 100
                         }
                     }
                 }
-            },
+            }, 
             suggestions: {
                 types: {
-                    // Limit query to only suggest based on "title" field
-                    documents: { fields: ["title"] }
+                  // Limit query to only suggest based on "title" field
+                  documents: { fields: ["title"] }
                 },
                 // Limit the number of suggestions returned from the server
                 size: 3
-            }
+              }
         }
     };
 
@@ -68,13 +66,6 @@ function SearchBar() {
     return (
         <SearchProvider config={configurationOptions}>
             <SearchBox
-                autocompleteResults={{
-                    sectionTitle: "Suggested results",
-                    titleField: "title",
-                    urlField: "url",
-                    linkTarget: "_blank",
-                }
-                }
                 searchAsYouType={true}
                 inputView={renderInput}
                 autocompleteSuggestions={{

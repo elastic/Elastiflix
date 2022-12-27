@@ -12,7 +12,7 @@ function Popular(props) {
     const config = {
         apiConnector: connector,
         alwaysSearchOnInitialLoad: true,
-        initialState: { sortDirection: "desc", sortField: "popularity", resultsPerPage: 10 },
+        initialState: { sortDirection: "desc", sortField: "popularity", resultsPerPage: 8 },
         trackUrlState: false,
         suggestions: {
             types: {
