@@ -15,7 +15,7 @@ function Recent(props) {
   const config = {
     apiConnector: connector,
     alwaysSearchOnInitialLoad: true,
-    initialState: { sortDirection: "desc", sortField: "release_date", resultsPerPage: 20 },
+    initialState: { sortDirection: "desc", sortField: "release_date", resultsPerPage: 8 },
     trackUrlState: false,
     suggestions: {
       types: {

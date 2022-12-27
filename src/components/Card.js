@@ -17,7 +17,7 @@ function Card(props) {
           <div className="wrapper">
             <div className="title">
               <div>
-                <h2 dangerouslySetInnerHTML={{__html: props.movie.title.snippet}} />
+                <h2 dangerouslySetInnerHTML={{__html: props.movie.title.raw}} />
               </div>
               <span className="release_date">
                 {Date(props.movie.release_date.raw) > new Date() ? 'Releasing ' : 'Released '}
@@ -29,7 +29,7 @@ function Card(props) {
             </div>
           </div>
           <div className="overview">
-            <p dangerouslySetInnerHTML={{ __html: props.movie.overview.snippet}} />
+            <p dangerouslySetInnerHTML={{ __html: props.movie.overview.raw}} />
           </div>
           {renderCast}
         </div>
