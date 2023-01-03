@@ -3,6 +3,7 @@ body {
   max-width: 100%;
   overflow-x: hidden;
   box-sizing: border-box;
+  background-color: #000;
 }
 
 body {
@@ -25,7 +26,7 @@ code {
 }
 
 html {
-  background-color: #151515;
+  background-color: #000;
 }
 
 .row {
@@ -78,6 +79,7 @@ html {
 }
 
 .banner {
+  margin-top: 60px;
   background-image: url("https://image.tmdb.org/t/p/original/jTswp6KyDYKtvC52GbHagrZbGvD.jpg");
   background-position: center center;
   background-size: cover;
@@ -174,12 +176,13 @@ html {
 }
 
 .nav {
+  background-color: #000;
   display: flex;
-  min-height: 30px;
+  min-height: 20px;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 40px;
-  position: fixed;
+  padding: 10px 40px;
+  
   top: 0;
   transition: all 0.5s;
   transition-timing-function: ease-in;
@@ -187,12 +190,16 @@ html {
   z-index: 4;
 
   .search-page-wrapper & {
-    background: rgba(#151515, 0.85);
+    background: #000;
   }
 }
 
+.nav-fixed {
+  position: fixed;
+}
+
 .nav__black {
-  background-color: #111;
+  background-color: #000;
 }
 
 .nav__logo {
