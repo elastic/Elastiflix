@@ -6,7 +6,7 @@ function Nav(props) {
 
 
     return (
-        <div className="nav">
+        <div className={`nav ${props.fixed? "nav-fixed" : ""}`} >
             <a href="/">
                 <img
                     className="nav__logo"
@@ -23,7 +23,8 @@ function Nav(props) {
 
 // Set default props
 Nav.defaultProps = {
-    showSearch: false
+    showSearch: false,
+    fixed: false
 };
 
 export default Nav;

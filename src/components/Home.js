@@ -7,7 +7,7 @@ import Recent from "./Recent";
 function Home() {
     return (
         <div className="app">
-            <Nav showSearch={true}/>
+            <Nav showSearch={true} fixed={true}/>
             <Header />
             <div className="recommendations">
                 <Popular />
