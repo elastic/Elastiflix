@@ -71,3 +71,6 @@ Open browser to https://localhost:5000 to see the UI in action!
 
 These 2 parts are just the start to building great search solutions, as Elastic also provides pre-built tools to help accelerate the building out of a top-notch search experience. You can find out more information about this at the [Elastic Enterprise Search](https://www.elastic.co/enterprise-search) section of the Elatic website.
 
+## Credits 
+
+<img src="./src/tmdb-logo.svg" width="40"> This product uses the TMDB API but is not endorsed or certified by TMDB.
