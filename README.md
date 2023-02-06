@@ -6,66 +6,61 @@ Elastiflix is a fictitious video streaming service company that provides a web-b
 
 - [Elastic Cloud](https://cloud.elastic.co/) Deployment created, new accounts can sign-up for a limitless 14-day free trial to POC building a solution like this
 
-### Setup Elastic Cloud
+## Setup Elastic Cloud
 
-To get started with this sample, create a 14-day free trial of Elastic Cloud by going to https://cloud.elastic.co/registration and signing up with your Google or Microsoft Account or by signing up with another email. After logging in, you will be prompted with the Elastic Cloud console. Clicking `Create Deployment` will walk you through creating a new Elastic Cloud deployment, hosted in the Cloud Provider and region of your choice. You can run Elastic Cloud in Microsoft Azure, Google Cloud Platform or Amazon Web Services. If you expand settings you can choose your provider/region as well as other settings, which we can leave default for now. When you create `Create Deployment` Elastic Cloud will create all the necessary components to build the solution. There will be a username and password shown during the provisioning process, so be sure to save that somewhere safe as it is an admin account for your cluster.
+To get started with this sample, create a 14-day free trial of Elastic Cloud by going to https://cloud.elastic.co/registration and signing up with your Google or Microsoft Account or by signing up with another email. 
+
+After logging in, you will be prompted with the Elastic Cloud console. Clicking `Create Deployment` will walk you through creating a new Elastic Cloud deployment, hosted in the Cloud Provider and region of your choice. 
+
+You can run Elastic Cloud in Microsoft Azure, Google Cloud Platform or Amazon Web Services. If you expand settings you can choose your provider/region as well as other settings, which we can leave default for now. When you create `Create Deployment` Elastic Cloud will create all the necessary components to build the solution. 
+
+There will be a username and password shown during the provisioning process, so be sure to save that somewhere safe as it is an admin account for your cluster.
 <p align="center">
 <img src="static/create-deployment.gif" height="500">
  </p>
 
-Once the cluster is ready, you can navigate to it at the link provided. This will take you to Kibana, the solution management and visualization tool for Elastic. There are a few settings that you should capture and place in the sample to point it at this newly created Elastic Cloud instance. These settings are
+Once the cluster is ready, you can navigate to it at the link provided. This will take you to Kibana, the solution management and visualization tool for Elastic. 
 
-- ELASTICSEARCH_PASSWORD: Password shown when deployment is created
-- CLOUD_ID: URL Found on Deployments Page (Look for Cloud ID Area)
-<p align="center">
-<img src="static/get-cloud-id.gif" height="500">
-</p>
+In Kibana, you can access the Enterprise Search solution where you can grab the credentials required to run that demo: App Search Base URL, App Search Search public key and App Search private key
 
-- AS_BASE_URL & AS_SEARCH_API_KEY: URL of Elastic App Search Instance and API Key for search experience in the UI. Retrieve it like below
+You can follow the GIF below to see how to access them.
 
 <p align="center">
 <img src="static/loader/get_as_base_url.gif" height="500">
 </p>
 
-### Load data
+## Load data
 
-#### The data files
+### The data files
 
 There are a handful of files that can be updated to simulate data. They can also be used as-is with great results
 
-- tmdb-data/cast_popular: JSON file from TMDB that shows popular movies
-- tmdb-data/movies_2000-2021_w_details.json: JSON file representing over 8k movies with additional details
-- analytics-data/query_no_results.txt: File containing queries that will return no results
-- analytics-data/terms.txt: This is a generated file that contains random search terms.
+- data-loader/movies: Contains movies data to populate our demo
+- data-loader/analytics: Contains files used to generate sample search analytics
 
-#### Run the scripts
+### Run the script
 
-There are 2 scripts that run when you create the container: one that generates sample term data and another that performs the simulation against Elastic Cloud
+You just need to run the script `index-data.py` that will create an engine, load the movies data, set up the relevancy model and generate sample search analytics data. 
 
-- generate-analytics-input.py: File that reads from TMDB movie files and randomly create list of search terms.
-- generate-analytics.py: Aggregates all data files to perform different searches
+Simply provide the App Search base URL and Private key to run the script. 
 
+```
+python3 index-data.py --private_key private-xyz  --as_host https://xyz.cloud.es.io
+```
 
-# Elastiflix Website
+## Elastiflix Website
 
 React App preconfigured to query movies from Elastic Cloud deployment created in the [TMDB Loader Section](../data-loader/). The search experience is powered by [Search UI](https://github.com/elastic/search-ui), a free open source package written in React and Typescript to accelerate creating visual interfaces for search written and maintained by Elastic.
 
-## Prerequisites
+### Configuration
 
-- [Data Import step completed](../data-loader)
-- Docker Desktop Installed
-- [Create and Setup Elastic CLoud](../../README.md#setup-elastic-cloud)
-- Gather the below variables and place them in `env` file
-    - AS_BASE_URL: URL of Elastic App Search Instance. Retrieve it like below
-    - AS_SEARCH_API_KEY: Search only API Key. Retrieve it like below
-   <img src="../../static/get-as-settings.gif" height="700">
+Open the file `.env`, you can see default value that points to an active engine. You can simply these values in place if you want to use the demo deployment. If you have deployed your own Elastic cluster and loaded the data, you can update the values here with your own. 
 
-    - ENGINE_NAME: LEAVE UNTOUCHED
+### Run the app
 
-## Run App
+Make sure the node dependencies are installed by running `npm install`. Then start the application with `npm start` 
 
 Open browser to https://localhost:5000 to see the UI in action!
-   <img src="../../static/ui/ui.png" height="700">
 
 ### What's next?
 
