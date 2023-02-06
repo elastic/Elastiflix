@@ -30,10 +30,10 @@ def index(moviesFile):
     count = count + 1
 
     if count >= 100:
-      response = app_search.index_documents(engine_name=args.engine_name,documents=movies,request_timeout=60)
+      response = app_search.index_documents(engine_name=args.engine_name,documents=movies)
       movies = []
       count = 0
-      time.sleep(3)
+      time.sleep(5)
       print(".", end='', flush=True)
 
 parser = argparse.ArgumentParser()
@@ -41,73 +41,55 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--data_folder', dest='data_folder', required=False, default='movies')
 parser.add_argument('--config_folder', dest='config_folder', required=False, default='config')
 parser.add_argument('--private_key', dest='pkey', required=False, default='config')
-# parser.add_argument('--es_user', dest='es_user', required=False, default='elastic')
-# parser.add_argument('--es_password', dest='es_password', required=True)
 parser.add_argument('--as_host', dest='as_host', required=True)
-parser.add_argument('--analytics_folder', dest='analytics_folder', required=False)
+parser.add_argument('--analytics_folder', dest='analytics_folder', required=False, default='analytics')
 parser.add_argument('--engine_name', dest='engine_name', required=False, default='movies')
-# parser.add_argument('--cloud_id', dest='cloud_id', required=True)
 args = parser.parse_args()
-
-# print("Retrieve app search credentials")
-# as_private_key = None
-# responseRead = requests.get(args.as_host+'/api/as/v1/credentials/pkey', auth=(args.es_user, args.es_password))
-
-# if responseRead.ok:
-#     as_private_key = responseRead.json()['key']
-# else:
-#     print("Private key does not exist, creating it")
-#     body = {'name': 'pkey', "type": "private", "read": True, "write": True, "access_all_engines": True}
-#     responseWrite = requests.post(args.as_host+'/api/as/v1/credentials', json = body, auth=(args.es_user, args.es_password))
-#     if responseWrite.ok:
-#         as_private_key = responseWrite.json()['key']
 
 # print("App search credentials found")
 app_search = AppSearch(
     args.as_host,
-    http_auth=args.pkey
+    bearer_auth=args.pkey,
+    request_timeout=600
 )
 print("Create engine")
-app_search.create_engine(engine_name=args.engine_name, request_timeout=30)
+app_search.create_engine(engine_name=args.engine_name)
 print("Engine created")
 
-print("Indexing data to App Search")
-moviesFile = gzip.open(os.path.join(args.data_folder, "movies.json.gz"), 'rt')
-index(moviesFile)
-time.sleep(60)
-print("Update engine schema")
+print("Update engine schema...")
 schemaConfig = open(os.path.join(args.config_folder, "schema.json") , "r")
 schemaJson = json.load(schemaConfig)
+
 resp = app_search.put_schema(
     engine_name=args.engine_name,
-    schema=schemaJson,
-    request_timeout=60
+    schema=schemaJson
 )
+print("Done")
 
-print("Update engine relevancy")
-relevancyConfig = open(os.path.join(args.config_folder, "relevancy.json"), "r")
-relevancyJson = json.load(relevancyConfig)
-app_search.put_search_settings(engine_name=args.engine_name,body=relevancyJson,request_timeout=60)
+print("Indexing data to App Search...")
+moviesFile = gzip.open(os.path.join(args.data_folder, "movies.json.gz"), 'rt')
+index(moviesFile)
+# time.sleep(280)
+print("Done")
 
-print("Upload synonyms set")
+print("Upload synonyms set...")
 synonymsConfig = open(os.path.join(args.config_folder, "synonyms.json"), "r")
 synonymsConfig = json.load(synonymsConfig)
 for synonym in synonymsConfig:
-    app_search.create_synonym_set(engine_name=args.engine_name,body={"synonyms": synonym},request_timeout=60)
+    app_search.create_synonym_set(engine_name=args.engine_name,synonyms=synonym)
+print("Done")
 
-# print("Indexing data to Elasticsearch")
-# es = Elasticsearch(
-#     cloud_id=args.cloud_id,
-#     http_auth=(args.es_user, args.es_password),
-#     request_timeout=30
-# )
 
-# moviesFile = open(os.path.join(args.data_folder, "movies_2000-2021_w_details.json"), "r")
-# moviesJson = json.load(moviesFile)
-# helpers.bulk(es, moviesJson, index='movies')
+print("Update engine relevancy...")
+relevancyConfig = open(os.path.join(args.config_folder, "relevancy.json"), "r")
+relevancyJson = json.load(relevancyConfig)
+app_search.put_search_settings(engine_name=args.engine_name, boosts=relevancyJson['boosts'], precision=relevancyJson['precision'], result_fields=relevancyJson['result_fields'], search_fields=relevancyJson['search_fields'])
+print("Done")
 
 
 
+
+print("Generate analytics sample...")
 # Build terms list from generated terms, popular cast, Queries with no click, and queries with no results
 terms = open(os.path.join(args.analytics_folder, "terms.txt"), "r")
 terms_array = []
@@ -128,25 +110,21 @@ for no_results_term in no_results_terms_file.readlines():
 for term in terms_array:
     results = app_search.search(
         engine_name=args.engine_name,
-        body={
-            "query": term,
-            "precision": 10,
-            "page": {"size" : 10},
-            "result_fields": {"id": {"raw": {}}}
-        }
+        query=term,
+        page_size=10,
+        result_fields={"id": {"raw": {}}}
     )
 
     # Randomly decide to generate a click for this search and than randomly pick result in list to generate click
     if random.choice([True, False]) is True:
         if len(results['results']) > 0:
+            # print(results)
             chosen_document = random.choice(results['results'])
             if chosen_document['id']:
                 resp = app_search.log_clickthrough(
                     engine_name=args.engine_name,
-                    query_text=term,
-                    document_id=chosen_document['id']['raw']
+                    query=term,
+                    document_id=chosen_document['id']['raw'],
+                    request_id=results['meta']['request_id']
                 )
-
-print("Done Generating Analytics in Elastic")
-
 print("Done")
