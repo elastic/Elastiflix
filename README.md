@@ -29,22 +29,27 @@ Once the cluster is ready, you can navigate to it at the link provided. This wil
 
 ### Load data
 
-#### The data files
+#### Data file
 
-There are a handful of files that can be updated to simulate data. They can also be used as-is with great results
+Data file used to populate our movie database
 
-- tmdb-data/cast_popular: JSON file from TMDB that shows popular movies
-- tmdb-data/movies_2000-2021_w_details.json: JSON file representing over 8k movies with additional details
-- analytics-data/query_no_results.txt: File containing queries that will return no results
-- analytics-data/terms.txt: This is a generated file that contains random search terms.
+- data-loader/movies/movies.json.gz: JSON file that contains over 8k movies
 
-#### Run the scripts
+#### Analytics files
 
-There are 2 scripts that run when you create the container: one that generates sample term data and another that performs the simulation against Elastic Cloud
+Files used to generate sample analytics
 
-- generate-analytics-input.py: File that reads from TMDB movie files and randomly create list of search terms.
-- generate-analytics.py: Aggregates all data files to perform different searches
+- data-loader/analytics/query_no_results.txt: File containing queries that will return no results
+- data-loader/analytics/terms.txt: This is a generated file that contains random search terms.
+- data-loader/analytics/cast_popular.json: JSON file containing movies with popular cast
 
+#### Run the script
+
+The script to load the data and generate analytics sample is data-loader/index-data.py. 
+
+Simply run this script and provide the Private key and App Search Base URL: 
+
+```python3 index-data.py --private_key private-xyz  --as_host https://xyz.ent.europe-west1.gcp.cloud.es.io```
 
 # Elastiflix Website
 
@@ -69,7 +74,7 @@ Open browser to https://localhost:5000 to see the UI in action!
 
 ### What's next?
 
-These 2 parts are just the start to building great search solutions, as Elastic also provides pre-built tools to help accelerate the building out of a top-notch search experience. You can find out more information about this at the [Elastic Enterprise Search](https://www.elastic.co/enterprise-search) section of the Elatic website.
+These 2 parts are just the start to building great search solutions, as Elastic also provides pre-built tools to help accelerate the building out of a top-notch search experience. You can find out more information about this at the [Elastic Enterprise Search](https://www.elastic.co/enterprise-search) section of the Elastic website.
 
 ## Credits 
 
