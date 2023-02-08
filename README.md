@@ -31,22 +31,27 @@ You can follow the GIF below to see how to access them.
 
 ## Load data
 
-### The data files
+#### Data file
 
-There are a handful of files that can be updated to simulate data. They can also be used as-is with great results
+Data file used to populate our movie database
 
-- data-loader/movies: Contains movies data to populate our demo
-- data-loader/analytics: Contains files used to generate sample search analytics
+- data-loader/movies/movies.json.gz: JSON file that contains over 8k movies
 
-### Run the script
+#### Analytics files
 
-You just need to run the script `index-data.py` that will create an engine, load the movies data, set up the relevancy model and generate sample search analytics data. 
+Files used to generate sample analytics
 
-Simply provide the App Search base URL and Private key to run the script. 
+- data-loader/analytics/query_no_results.txt: File containing queries that will return no results
+- data-loader/analytics/terms.txt: This is a generated file that contains random search terms.
+- data-loader/analytics/cast_popular.json: JSON file containing movies with popular cast
 
-```
-python3 index-data.py --private_key private-xyz  --as_host https://xyz.cloud.es.io
-```
+#### Run the script
+
+The script to load the data and generate analytics sample is data-loader/index-data.py. 
+
+Simply run this script and provide the Private key and App Search Base URL: 
+
+```python3 index-data.py --private_key private-xyz  --as_host https://xyz.ent.europe-west1.gcp.cloud.es.io```
 
 ## Elastiflix Website
 
@@ -64,7 +69,7 @@ Open browser to https://localhost:5000 to see the UI in action!
 
 ### What's next?
 
-These 2 parts are just the start to building great search solutions, as Elastic also provides pre-built tools to help accelerate the building out of a top-notch search experience. You can find out more information about this at the [Elastic Enterprise Search](https://www.elastic.co/enterprise-search) section of the Elatic website.
+These 2 parts are just the start to building great search solutions, as Elastic also provides pre-built tools to help accelerate the building out of a top-notch search experience. You can find out more information about this at the [Elastic Enterprise Search](https://www.elastic.co/enterprise-search) section of the Elastic website.
 
 ## Credits 
 
