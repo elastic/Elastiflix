@@ -5,10 +5,9 @@ import {
 import { EuiIcon } from '@elastic/eui';
 import { useHistory } from "react-router-dom";
 
+import ElasticsearchAPIConnector from "@elastic/search-ui-elasticsearch-connector";
 
-import AppSearchAPIConnector from "@elastic/search-ui-app-search-connector";
 import { SearchProvider } from "@elastic/react-search-ui";
-
 
 const renderInput = ({ getAutocomplete, getInputProps, getButtonProps }) => {
     return (
@@ -27,11 +26,10 @@ const renderInput = ({ getAutocomplete, getInputProps, getButtonProps }) => {
 
 function SearchBar() {
 
-    const connector = new AppSearchAPIConnector({
-        searchKey: process.env.REACT_APP_AS_SEARCH_API_KEY,
-        engineName: process.env.REACT_APP_ENGINE_NAME,
-        endpointBase: process.env.REACT_APP_AS_BASE_URL,
-        cacheResponses: false
+    const connector = new ElasticsearchAPIConnector({
+        host: process.env.REACT_APP_ES_BASE_URL,
+        index: process.env.REACT_APP_INDEX_NAME,
+        apiKey: process.env.REACT_APP_ES_SEARCH_API_KEY,
     });
 
     const configurationOptions = {
@@ -47,41 +45,47 @@ function SearchBar() {
                         }
                     }
                 }
-            }, 
+            },
             suggestions: {
                 types: {
-                  // Limit query to only suggest based on "title" field
-                  documents: { fields: ["title"] }
+                    // Limit query to only suggest based on "title" field
+                    documents: { fields: ["title"] }
                 },
                 // Limit the number of suggestions returned from the server
-                size: 3
-              }
+                size: 2
+            }
         }
     };
 
-    
+
 
     const history = useHistory();
 
     return (
         <SearchProvider config={configurationOptions}>
+
             <SearchBox
                 searchAsYouType={true}
                 inputView={renderInput}
-                autocompleteSuggestions={{
-                    sectionTitle: "Suggested Queries"
-                }}
                 autocompleteMinimumCharacters={2}
+                autocompleteResults={{
+                    linkTarget: "_blank",
+                    sectionTitle: "Results",
+                    titleField: "title",
+                    urlField: "nps_link",
+                    shouldTrackClickThrough: true,
+                    clickThroughTags: ["test"]
+                }}
+                debounceLength={0}
                 onSubmit={searchTerm => {
                     history.push("/search?q=" + searchTerm);
+                    window.location.href = "/search?q=" + searchTerm;
                 }}
-                onSelectAutocomplete={(selection, defaultOnSelectAutocomplete) => {
-                    if (selection.suggestion) {
-                        history.push("/search?q=" + selection.suggestion);
-                    } else {
-                        defaultOnSelectAutocomplete(selection);
-                    }
-                }}
+                onSelectAutocomplete={(selection, {}) => {
+                    if (selection.title) {
+                        window.location.href = "/search?q=" + selection.title.raw;
+                    } 
+                  }}
             />
         </SearchProvider>
     );
