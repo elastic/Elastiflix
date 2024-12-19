@@ -1,6 +1,5 @@
-import AppSearchAPIConnector from "@elastic/search-ui-app-search-connector";
+import ElasticsearchAPIConnector from "@elastic/search-ui-elasticsearch-connector";
 import { SearchBox, SearchProvider, Facet, Sorting } from "@elastic/react-search-ui";
-// import MultiCheckboxFacet from "./MultiCheckboxFacet";
 
 import Results from "./Results"
 import Nav from "./Nav"
@@ -28,11 +27,10 @@ const renderInput = ({ getAutocomplete, getInputProps, getButtonProps }) => {
 
 
 function SearchPage() {
-  const connector = new AppSearchAPIConnector({
-    searchKey: process.env.REACT_APP_AS_SEARCH_API_KEY,
-    engineName: process.env.REACT_APP_ENGINE_NAME,
-    endpointBase: process.env.REACT_APP_AS_BASE_URL,
-    cacheResponses: false
+  const connector = new ElasticsearchAPIConnector({
+    host: process.env.REACT_APP_ES_BASE_URL,
+    index: process.env.REACT_APP_INDEX_NAME,
+    apiKey: process.env.REACT_APP_ES_SEARCH_API_KEY,
   });
 
   const configurationOptions = {
@@ -68,7 +66,7 @@ function SearchPage() {
         release_date: { raw: {} },
         overview: { raw: { size: 300 } },
         cast: { raw: {} }
-      },
+      }/*,
       facets: {
         spoken_languages: { type: "value", size: 5 },
         cast: { type: "value", size: 5 },
@@ -89,11 +87,11 @@ function SearchPage() {
             { from: 9, to: 10, name: "9 - 10" }
           ]
         }
-      }
+      }*/
     }
   };
 
-  
+
 
   return (
 
@@ -104,11 +102,16 @@ function SearchPage() {
           <SearchBox
             inputView={renderInput}
             searchAsYouType={true}
-            autocompleteSuggestions={{
-              sectionTitle: "Suggested Queries"
+            autocompleteMinimumCharacters={2}
+            autocompleteResults={{
+              linkTarget: "_blank",
+              sectionTitle: "Results",
+              titleField: "title",
+              urlField: "nps_link",
+              shouldTrackClickThrough: true,
+              clickThroughTags: ["test"]
             }}
             className="search-box-container"
-            autocompleteMinimumCharacters={2}
           />
           <Sorting
             className="sidebar-sort"
@@ -130,7 +133,7 @@ function SearchPage() {
               }]}
           />
         </div>
-          <Results />
+        <Results />
       </div>
 
     </SearchProvider>
