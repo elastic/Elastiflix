@@ -2,29 +2,23 @@
 import SearchBar from "./SearchBar";
 import logo from '../logo.svg'
 
-function Nav(props) {
-
-
+function Nav({ fixed = false, showSearch = false }) {
     return (
-        <div className={`nav ${props.fixed? "nav-fixed" : ""}`} >
-            <a href="/">
+        <div className={`nav ${fixed ? 'nav-fixed' : ''}`}>
+            <a href="/home">
                 <img
                     className="nav__logo"
                     src={logo}
-                    alt=""
+                    alt="Site Logo"
                 />
             </a>
-            {props.showSearch ? <div className="search_bar">
-                <SearchBar />
-            </div> : <></>}
+            {showSearch && (
+                <div className="search_bar">
+                    <SearchBar />
+                </div>
+            )}
         </div>
     );
 }
-
-// Set default props
-Nav.defaultProps = {
-    showSearch: false,
-    fixed: false
-};
 
 export default Nav;
