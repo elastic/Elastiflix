@@ -1,6 +1,5 @@
 import Nav from "./Nav";
 import Header from "./Header";
-
 import Popular from "./Popular";
 import Recent from "./Recent";
 

@@ -66,7 +66,7 @@ function SearchPage() {
         release_date: { raw: {} },
         overview: { raw: { size: 300 } },
         cast: { raw: {} }
-      }/*,
+      },
       facets: {
         spoken_languages: { type: "value", size: 5 },
         cast: { type: "value", size: 5 },
@@ -87,7 +87,7 @@ function SearchPage() {
             { from: 9, to: 10, name: "9 - 10" }
           ]
         }
-      }*/
+      }
     }
   };
 
