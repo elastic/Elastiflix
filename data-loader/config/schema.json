@@ -1,30 +1,99 @@
 {
-  "original_language": "text",
-  "original_title": "text",
-  "vote_average": "text",
-  "keywords": "text",
-  "imdb_id": "text",
-  "rating": "text",
-  "video": "text",
-  "title": "text",
-  "backdrop_path": "text",
-  "cast": "text",
-  "revenue": "number",
-  "user_score": "number",
-  "genres": "text",
-  "popularity": "number",
-  "production_countries": "text",
-  "vote_count": "number",
-  "budget": "number",
-  "overview": "text",
-  "runtime": "number",
-  "poster_path": "text",
-  "spoken_languages": "text",
-  "production_companies": "text",
-  "release_date": "date",
-  "belongs_to_collection": "text",
-  "tagline": "text",
-  "adult": "text",
-  "homepage": "text",
-  "status": "text"
+  "properties": {
+    "original_language": {
+      "type": "keyword"
+    },
+    "original_title": {
+      "type": "text"
+    },
+    "vote_average": {
+      "type": "float"
+    },
+    "keywords": {
+      "type": "nested"
+    },
+    "imdb_id": {
+      "type": "keyword"
+    },
+    "rating": {
+      "type": "keyword"
+    },
+    "video": {
+      "type": "boolean"
+    },
+    "title": {
+      "type": "text"
+    },
+    "backdrop_path": {
+      "type": "keyword"
+    },
+    "cast": {
+      "type": "keyword"
+    },
+    "revenue": {
+      "type": "float"
+    },
+    "user_score": {
+      "type": "float"
+    },
+    "genres": {
+      "type": "keyword"
+    },
+    "popularity": {
+      "type": "float"
+    },
+    "production_countries": {
+      "type": "keyword"
+    },
+    "vote_count": {
+      "type": "integer"
+    },
+    "budget": {
+      "type": "float"
+    },
+    "overview": {
+      "type": "text"
+    },
+    "runtime": {
+      "type": "integer"
+    },
+    "poster_path": {
+      "type": "text"
+    },
+    "spoken_languages": {
+      "type": "keyword"
+    },
+    "production_companies": {
+      "type": "keyword"
+    },
+    "release_date": {
+      "type": "date",
+      "format": "yyyy-MM-dd"
+    },
+    "belongs_to_collection": {
+      "type": "nested"
+    },
+    "tagline": {
+      "type": "keyword"
+    },
+    "adult": {
+      "type": "boolean"
+    },
+    "homepage": {
+      "type": "keyword"
+    },
+    "status": {
+      "type": "keyword"
+    },
+    "extra": {
+      "type": "object",
+      "properties": {
+        "plot_llm": {
+          "type": "semantic_text",
+          "inference_id": "my-elser-endpoint"
+        }
+      }
+    }
+  }
 }
+
