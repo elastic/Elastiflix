@@ -90,7 +90,7 @@
       "properties": {
         "plot_llm": {
           "type": "semantic_text",
-          "inference_id": "my-elser-endpoint"
+          "inference_id": "my-elser-model"
         }
       }
     }

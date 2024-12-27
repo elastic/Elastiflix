@@ -28,7 +28,8 @@ def main():
 
     es_client = Elasticsearch(
         cloud_id=args.cloud_id,
-        basic_auth=(args.es_user, args.es_password)
+        basic_auth=(args.es_user, args.es_password),
+        request_timeout=300
     )
 
     # Re-create the index if --recreate is passed
@@ -51,13 +52,12 @@ def main():
 
 
     print("Indexing data into Elasticsearch...")
-    movies_file_path = os.path.join(args.data_folder, "movies.json.gz")
+    movies_file_path = os.path.join(args.data_folder, "movies_plus_plots.json.gz")
     with gzip.open(movies_file_path, 'rt') as file:
         movies_json = json.load(file)
 
     progress = tqdm(unit="docs", total=len(movies_json))
-
-    for ok, action in helpers.streaming_bulk(es_client, actions_generator(movies_json, args.index_name), chunk_size=100):
+    for ok, action in helpers.parallel_bulk(es_client, actions_generator(movies_json, args.index_name), chunk_size=10):
         progress.update(1)
 
     print("All tasks completed successfully.")
