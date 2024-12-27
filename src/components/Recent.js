@@ -16,12 +16,18 @@ function Recent(props) {
   const config = {
     apiConnector: connector,
     alwaysSearchOnInitialLoad: true,
-    initialState: { sortDirection: "desc", sortField: "release_date", resultsPerPage: 8 },
+    initialState: { 
+
+      sortList: [
+        { direction: "desc", field: "release_date" }
+      ],
+      resultsPerPage: 8
+    },
     trackUrlState: false,
     searchQuery: {
       search_fields: {
         title: {
-          weight: 3
+          weight: 1
         }
       },
       result_fields: {

@@ -1,10 +1,10 @@
 import ElasticsearchAPIConnector from "@elastic/search-ui-elasticsearch-connector";
 import {
-    
+
     SearchProvider,
 
     WithSearch
-  } from "@elastic/react-search-ui";
+} from "@elastic/react-search-ui";
 
 function Popular(props) {
 
@@ -15,7 +15,11 @@ function Popular(props) {
     });
 
     const config = {
-        initialState: { sortDirection: "desc", sortField: "popularity", resultsPerPage: 10 },
+        initialState: {
+            sortList: [
+                { direction: "desc", field: "popularity" }
+            ], resultsPerPage: 10
+        },
         searchQuery: {
             search_fields: {
                 title: {
@@ -54,45 +58,28 @@ function Popular(props) {
     return (
         <SearchProvider config={config}>
             <WithSearch mapContextToProps={({ searchTerm, setSearchTerm, results }) => ({ searchTerm, setSearchTerm, results })}>
-                
+
                 {({ searchTerm, setSearchTerm, results }) => (
                     <div className="row">
                         <h2>Popular movies</h2>
                         <div className="row__posters">
                             {
-                            results.filter(r => r.poster_path !== null).map(r => (
-                                <img
-                                    key={r.id.raw}
-                                    className="row__poster row__posterLarge"
-                                    src={`https://image.tmdb.org/t/p/original/${r.poster_path.raw}`}
-                                    alt={r.title.raw}
-                                    // onclick set the movie var in the local storate to the current movie
-                                    onClick={() => {
-                                        console.log("clicked")
-                                        console.log(r)
-                                        console.log(r.backdrop_path.raw)
-                                        // setMovieState({
-                                        //     title: r.title.raw,
-                                        //     description: r.overview.raw,
-                                        //     backdrop: `https://image.tmdb.org/t/p/original/${r.backdrop_path.raw}`,
-                                        //     id: r.id.raw
-                                        // })
-                                        // setMovie({
-                                        //     title: r.title.raw,
-                                        //     description: r.overview.raw,
-                                        //     backdrop: `https://image.tmdb.org/t/p/original/${r.backdrop_path.raw}`,
-                                        //     id: r.id.raw
-                                        // })
-                                        // window.localStorage.setItem('movie', JSON.stringify({
-                                        //     title: r.title.raw,
-                                        //     description: r.overview.raw,
-                                        //     backdrop: `https://image.tmdb.org/t/p/original/${r.backdrop_path.raw}`,
-                                        //     id: r.id.raw
-                                        // }))
-                                        window.location.href = "/home"
-                                    }}
-                                />
-                            ))}
+                                results.filter(r => r.poster_path !== null).map(r => (
+                                    <img
+                                        key={r.id.raw}
+                                        className="row__poster row__posterLarge"
+                                        src={`https://image.tmdb.org/t/p/original/${r.poster_path.raw}`}
+                                        alt={r.title.raw}
+                                        // onclick set the movie var in the local storate to the current movie
+                                        onClick={() => {
+                                            console.log("clicked")
+                                            console.log(r)
+                                            console.log(r.backdrop_path.raw)
+                                            
+                                            window.location.href = "/home"
+                                        }}
+                                    />
+                                ))}
                         </div>
                     </div>
                 )}
