@@ -1,13 +1,10 @@
-import React from 'react';
-import {
-    SearchBox,
-} from '@elastic/react-search-ui';
-import { EuiIcon } from '@elastic/eui';
-import { useHistory } from "react-router-dom";
 
 import ElasticsearchAPIConnector from "@elastic/search-ui-elasticsearch-connector";
-
 import { SearchProvider } from "@elastic/react-search-ui";
+import { EuiIcon } from '@elastic/eui';
+import { useHistory } from "react-router-dom";
+import { SearchBox } from '@elastic/react-search-ui';
+
 
 const renderInput = ({ getAutocomplete, getInputProps, getButtonProps }) => {
     return (
@@ -81,11 +78,11 @@ function SearchBar() {
                     history.push("/search?q=" + searchTerm);
                     window.location.href = "/search?q=" + searchTerm;
                 }}
-                onSelectAutocomplete={(selection, {}) => {
+                onSelectAutocomplete={(selection, { }) => {
                     if (selection.title) {
                         window.location.href = "/search?q=" + selection.title.raw;
-                    } 
-                  }}
+                    }
+                }}
             />
         </SearchProvider>
     );

@@ -1,14 +1,12 @@
 import ElasticsearchAPIConnector from "@elastic/search-ui-elasticsearch-connector";
 import { SearchBox, SearchProvider, Facet, Sorting } from "@elastic/react-search-ui";
+import {
+  EuiIcon,
+} from '@elastic/eui';
 
 import Results from "./Results"
 import Nav from "./Nav"
-import {
-  EuiFlexGroup,
-  EuiFlexItem,
-  EuiSpacer,
-  EuiIcon,
-} from '@elastic/eui';
+
 
 const renderInput = ({ getAutocomplete, getInputProps, getButtonProps }) => {
   return (
@@ -17,7 +15,7 @@ const renderInput = ({ getAutocomplete, getInputProps, getButtonProps }) => {
       <input
         {...getInputProps({
           className: "search-box__input",
-          placeholder: "Movie, cast..."
+          placeholder: "Movie, cast or theme..."
         })}
       />
       {getAutocomplete()}
@@ -31,7 +29,50 @@ function SearchPage() {
     host: process.env.REACT_APP_ES_BASE_URL,
     index: process.env.REACT_APP_INDEX_NAME,
     apiKey: process.env.REACT_APP_ES_SEARCH_API_KEY,
-  });
+  },
+    (requestBody, requestState, queryConfig) => {
+
+      if (!requestState.searchTerm) return requestBody;
+
+      // transforming the query before sending to Elasticsearch using the requestState and queryConfig
+      const hybrid_search_query = {
+        retriever: {
+          rrf: {
+            retrievers: [
+              {
+                standard: {
+                  query: {}
+                }
+              },
+              {
+                standard: {
+                  query: {
+                    semantic: {
+                      field: "extra.plot_llm",
+                      query: requestState.searchTerm
+                    }
+                  }
+                }
+              }
+            ],
+            rank_window_size: 20,
+            rank_constant: 1
+          }
+        }
+      }
+
+      hybrid_search_query.retriever.rrf.retrievers[0].standard.query = requestBody.query;
+
+      //delete the original query and sort from requestBody
+      delete requestBody.query;
+      delete requestBody.sort;
+
+      //adding the new "retriever" clause to the requestBody
+      requestBody.retriever = hybrid_search_query.retriever;
+
+      return requestBody;
+    }
+  );
 
   const configurationOptions = {
     apiConnector: connector,
@@ -61,7 +102,7 @@ function SearchPage() {
       disjunctiveFacets: ["genres"],
       resultsPerPage: 10,
       result_fields: {
-        title: { raw: { size: 100 }, raw: {} },
+        title: { raw: { size: 100 } },
         poster_path: { raw: {} },
         release_date: { raw: {} },
         overview: { raw: { size: 300 } },
