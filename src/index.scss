@@ -3,7 +3,7 @@ body {
   max-width: 100%;
   overflow-x: hidden;
   box-sizing: border-box;
-  background-color: #000;
+  background-color: #1D1E23;
 }
 
 body {
@@ -27,7 +27,7 @@ code {
 }
 
 html {
-  background-color: #000;
+  background-color: #1D1E23;
 }
 
 .row {
@@ -151,7 +151,7 @@ html {
 
 .banner__button:hover {
   background-color: #e6e6e6;
-  color: #000;
+  color: #1D1E23;
   transition: all 0.2s;
 }
 
@@ -175,7 +175,7 @@ html {
 }
 
 .nav {
-  background-color: #000;
+  background-color: #1D1E23;
   display: flex;
   min-height: 20px;
   justify-content: space-between;
@@ -189,7 +189,7 @@ html {
   z-index: 99;
 
   .search-page-wrapper & {
-    background: #000;
+    background: #1D1E23;
   }
 }
 
@@ -198,7 +198,7 @@ html {
 }
 
 .nav__black {
-  background-color: #000;
+  background-color: #1D1E23;
 }
 
 .nav__logo {
@@ -728,7 +728,7 @@ html {
     }
 
     &.checked {
-      background: #000;
+      background: #1D1E23;
     }
   }
 
