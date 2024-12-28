@@ -5,7 +5,7 @@ function Card(props) {
   const renderCast = !!props.movie.cast.raw.length && <div className="cast"><p>Starring {props.movie.cast.raw.slice(0, 4).map(c => c + ", ")} ... </p></div>
 
   return (
-    <div className="card">
+    <div className="card" onClick={() => {window.location.href = `/movie?id=${props.movie.id.raw}`}}>
       <div className="wrapper">
         <div className="image">
           <div className="poster">
@@ -17,7 +17,7 @@ function Card(props) {
           <div className="wrapper">
             <div className="title">
               <div>
-                <h2 dangerouslySetInnerHTML={{__html: props.movie.title.raw}} />
+                <h2 dangerouslySetInnerHTML={{ __html: props.movie.title.raw }} />
               </div>
               <span className="release_date">
                 {Date(props.movie.release_date.raw) > new Date() ? 'Releasing ' : 'Released '}
@@ -29,7 +29,7 @@ function Card(props) {
             </div>
           </div>
           <div className="overview">
-            <p dangerouslySetInnerHTML={{ __html: props.movie.overview.raw}} />
+            <p dangerouslySetInnerHTML={{ __html: props.movie.overview.raw }} />
           </div>
           {renderCast}
         </div>

@@ -1,10 +1,5 @@
 import ElasticsearchAPIConnector from "@elastic/search-ui-elasticsearch-connector";
-import {
-
-    SearchProvider,
-
-    WithSearch
-} from "@elastic/react-search-ui";
+import { SearchProvider, WithSearch } from "@elastic/react-search-ui";
 
 function Popular(props) {
 
@@ -64,19 +59,14 @@ function Popular(props) {
                         <h2>Popular movies</h2>
                         <div className="row__posters">
                             {
-                                results.filter(r => r.poster_path !== null).map(r => (
+                                results.filter(movie => movie.poster_path !== null).map(movie => (
                                     <img
-                                        key={r.id.raw}
+                                        key={movie.id.raw}
                                         className="row__poster row__posterLarge"
-                                        src={`https://image.tmdb.org/t/p/original/${r.poster_path.raw}`}
-                                        alt={r.title.raw}
-                                        // onclick set the movie var in the local storate to the current movie
+                                        src={`https://image.tmdb.org/t/p/original/${movie.poster_path.raw}`}
+                                        alt={movie.title.raw}
                                         onClick={() => {
-                                            console.log("clicked")
-                                            console.log(r)
-                                            console.log(r.backdrop_path.raw)
-                                            
-                                            window.location.href = "/home"
+                                            window.location.href = `/movie?id=${movie.id.raw}`
                                         }}
                                     />
                                 ))}
