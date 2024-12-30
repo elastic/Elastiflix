@@ -73,4 +73,4 @@ These 2 parts are just the start to building great search solutions, as Elastic 
 
 ## Credits 
 
-<img src="./src/tmdb-logo.svg" width="40"> This product uses the TMDB API but is not endorsed or certified by TMDB.
+<img src="./src/assets/tmdb-logo.svg" width="40"> This product uses the TMDB API but is not endorsed or certified by TMDB.
