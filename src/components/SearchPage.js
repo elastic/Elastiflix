@@ -1,5 +1,5 @@
 import ElasticsearchAPIConnector from "@elastic/search-ui-elasticsearch-connector";
-import { SearchBox, SearchProvider, Facet, Sorting } from "@elastic/react-search-ui";
+import { SearchBox, SearchProvider, Sorting } from "@elastic/react-search-ui";
 import {
   EuiIcon,
 } from '@elastic/eui';

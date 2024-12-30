@@ -1,6 +1,5 @@
 * {
   margin: 0;
-  box-sizing: initial;
 }
 
 html,
@@ -171,11 +170,11 @@ body {
 .nav {
   top: 0;
   width: 99vw;
+  height: 3em;
   z-index: 99;
 
   background-color: #1D1E23;
   display: flex;
-  min-height: 2em;
   justify-content: space-between;
   align-items: center;
   padding-left: 2em;
@@ -497,7 +496,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 80px;
+  margin-top: 2em;
   padding: 10px 40px;
 
   form {

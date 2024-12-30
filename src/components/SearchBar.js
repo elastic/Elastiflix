@@ -78,7 +78,7 @@ function SearchBar() {
                     history.push("/search?q=" + searchTerm);
                     window.location.href = "/search?q=" + searchTerm;
                 }}
-                onSelectAutocomplete={(selection, { }) => {
+                onSelectAutocomplete={(selection) => {
                     if (selection.title) {
                         window.location.href = "/search?q=" + selection.title.raw;
                     }
