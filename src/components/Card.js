@@ -1,5 +1,5 @@
 import * as React from "react";
-import ComingSoon from '../coming-soon.png'
+import ComingSoon from '../assets/coming-soon.png'
 
 function Card(props) {
   const renderCast = !!props.movie.cast.raw.length && <div className="cast"><p>Starring {props.movie.cast.raw.slice(0, 4).map(c => c + ", ")} ... </p></div>

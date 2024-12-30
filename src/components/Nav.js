@@ -1,6 +1,6 @@
 
 import SearchBar from "./SearchBar";
-import logo from '../logo.svg'
+import logo from '../assets/logo.svg'
 
 function Nav({ fixed = false, showSearch = false }) {
     return (

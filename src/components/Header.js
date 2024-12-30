@@ -38,7 +38,7 @@ function Header() {
         {({ results }) => {
           if (!results || results.length === 0) return <div>Loading...</div>;
 
-          // Get the first result
+          // Get the first result only
           const movie = results[0];
           const poster = movie.poster_path.raw
             ? `https://image.tmdb.org/t/p/original/${movie.poster_path.raw}`

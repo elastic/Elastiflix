@@ -1,7 +1,7 @@
 import ElasticsearchAPIConnector from "@elastic/search-ui-elasticsearch-connector";
 import { SearchProvider, WithSearch } from "@elastic/react-search-ui";
 
-import ComingSoon from '../coming-soon.png'
+import ComingSoon from '../assets/coming-soon.png'
 
 function Recent(props) {
 

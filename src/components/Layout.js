@@ -1,8 +1,8 @@
 import React from 'react';
-import TmdbLogo from '../tmdb-logo.svg';
+import TmdbLogo from '../assets/tmdb-logo.svg';
 
 const Layout = ({ children }) =>
-  <div className='page-container' >
+  <div className='page-container'>
     <div className='content-wrap'>{children}</div>
 
     <div className="footer">
