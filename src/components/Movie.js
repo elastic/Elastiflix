@@ -20,18 +20,16 @@ function Movie() {
         searchQuery: {
             filters: [
                 {
-                  type: "all",
-                  field: "id",
-                  values: [movieId] 
+                    type: "all",
+                    field: "id",
+                    values: [movieId]
                 }
-              ],
+            ],
             result_fields: {
                 title: {
                     snippet: {}
                 },
-                poster_path: {
-                    snippet: {}
-                },
+
                 backdrop_path: {
                     snippet: {}
                 },
@@ -40,6 +38,14 @@ function Movie() {
                 },
                 release_date: {
                     snippet: {}
+                },
+                cast: {
+                    snippet: {}
+                },
+                extra: {
+                    plot_llm: {
+                        snippet: {}
+                    }
                 },
                 id: {
                     snippet: {}
@@ -52,32 +58,66 @@ function Movie() {
         trackUrlState: false
     };
 
+    
+
     return (
         <SearchProvider config={config}>
-            <Nav showSearch={true} fixed={true}/>
             
+            <Nav showSearch={true} fixed={true} />
             <WithSearch mapContextToProps={({ results }) => ({ results })}>
                 
-                {({ results }) => (
-                    results.length > 0 ? (
-                        <div>
-                            <h3>{results[0].title.raw}</h3>
-                            <div className="banner__contents">
-                                <h1 className="banner__title">{results[0].title.raw}</h1>
-                                <div className="banner__buttons">
-                                <button className="banner__button">Play</button>
-                                <button className="banner__button">My List</button>
+                {({ results }) => {
+                    
+                    if (!results || results.length === 0) return <div>Movie not found.</div>;
+
+                    // Get the first result only
+                    const movie = results[0];
+                    const poster = movie.backdrop_path.raw
+                        ? `https://image.tmdb.org/t/p/original/${movie.backdrop_path.raw}`
+                        : null;
+
+                    return(
+            
+                        <div className="movie" style={{
+                            backgroundImage: `url(${poster})`,
+                          }}>
+                            
+                            <div className="container">
+                                <div className="left">
+                                    <h1 className="title">{results[0].title.raw}</h1>
+                                    <p className="overview">{results[0].overview.raw}</p>
+
+                                    <h3>Release</h3>
+                                    <p>{results[0].release_date.raw}</p>
+
+                                    <h3>Cast</h3>
+                                    {results[0].cast.raw.slice(0, 10).map((number) => (
+                                        <p key={number}>{number}</p>
+                                    ))}
+    
+                                      
                                 </div>
-                                <p className="banner__description">{results[0].overview.raw}</p>
+                                <div className="right">
+                                {results[0]?.hasOwnProperty("extra") && 
+                                    ( 
+                                        <div className="plot">
+                                            <h3>Plot</h3>
+                                            <p className="plot_text">{results[0].extra.raw.plot_llm.text}</p>
+                                        </div> 
+                                    )} 
+
+                                    
+
+    
+                                </div>
+                                
                             </div>
-                            <div className="banner--fadeBottom"></div>
+
                         </div>
-                        
-                    ) : (
-                        <p>No results found</p>
-                    )
-                )}
-                
+
+                    ) 
+                }}
+
             </WithSearch>
         </SearchProvider>
     );
