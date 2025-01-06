@@ -74,8 +74,9 @@ body {
 
 .banner {
   margin-top: 60px;
-  background-position: center center;
+  background-position: 50% calc(50% + 150px);
   background-size: cover;
+  background-repeat: no-repeat;
   color: #fff;
   height: 700px;
   object-fit: contain;
