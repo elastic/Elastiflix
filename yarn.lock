@@ -1226,6 +1226,15 @@
     apache-arrow "^18.0.0"
     tslib "^2.4.0"
 
+"@elastic/elasticsearch@^8.17.0":
+  version "8.17.0"
+  resolved "https://registry.yarnpkg.com/@elastic/elasticsearch/-/elasticsearch-8.17.0.tgz#0214265bc04a3fe0d23a410b8d08b28217aac540"
+  integrity sha512-FZ+gQUrPsMpQ2RRIXwTmCoUeFCEausMhp4eQOyxT9j1cwGXHJrhelR6jffM1SC95kQUkB7+TcTq7oQ+bG2BQ9g==
+  dependencies:
+    "@elastic/transport" "^8.9.1"
+    apache-arrow "^18.0.0"
+    tslib "^2.4.0"
+
 "@elastic/elasticsearch@^8.2.1":
   version "8.16.2"
   resolved "https://registry.npmjs.org/@elastic/elasticsearch/-/elasticsearch-8.16.2.tgz"
