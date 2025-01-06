@@ -2,6 +2,9 @@
   "name": "streaming-ui",
   "version": "0.2.0",
   "private": true,
+  "engines": {
+    "node": "23.x"
+  },
   "dependencies": {
     "@elastic/datemath": "^5.0.3",
     "@elastic/elasticsearch": "^8.17.0",
