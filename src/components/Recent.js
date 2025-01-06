@@ -3,7 +3,7 @@ import { SearchProvider, WithSearch } from "@elastic/react-search-ui";
 
 import ComingSoon from '../assets/coming-soon.png'
 
-function Recent(props) {
+function Recent() {
 
   const connector = new ElasticsearchAPIConnector({
     host: process.env.REACT_APP_ES_BASE_URL,
@@ -12,16 +12,14 @@ function Recent(props) {
   });
 
 
-
   const config = {
     apiConnector: connector,
     alwaysSearchOnInitialLoad: true,
     initialState: { 
-
       sortList: [
         { direction: "desc", field: "release_date" }
       ],
-      resultsPerPage: 8
+      resultsPerPage: 15
     },
     trackUrlState: false,
     searchQuery: {
@@ -35,9 +33,6 @@ function Recent(props) {
           snippet: {}
         },
         poster_path: {
-          snippet: {}
-        },
-        backdrop_path: {
           snippet: {}
         },
         overview: {
