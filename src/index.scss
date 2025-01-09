@@ -328,6 +328,8 @@ body {
   bottom: 0;
   z-index: 2;
   pointer-events: none;
+  -webkit-filter: invert(100%);
+    filter: invert(100%);
 }
 
 
