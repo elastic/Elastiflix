@@ -59,7 +59,7 @@ def main():
     progress = tqdm(unit="docs", total=len(movies_json))
     for ok, action in helpers.parallel_bulk(es_client, actions_generator(movies_json, args.index_name), chunk_size=10):
         progress.update(1)
-
+        
     print("All tasks completed successfully.")
 
 if __name__ == "__main__":

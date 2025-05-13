@@ -1,0 +1,77 @@
+/* ...existing code... */
+
+/* Search controls container */
+.search-controls {
+  display: flex;
+  align-items: center;
+  margin: 0 15px;
+  gap: 15px;
+}
+
+/* Toggle styling */
+.toggle {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.toggle-switch {
+  position: relative;
+  width: 120px;
+  height: 30px;
+  margin-left: 10px;
+}
+
+.toggle-switch .checkbox {
+  display: none;
+}
+
+.toggle-switch .label {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #ddd;
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+.toggle-switch .inner {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
+.toggle-switch .inner::before {
+  content: var(--before-content);
+  color: #4d4d4d;
+}
+
+.toggle-switch .inner::after {
+  content: var(--after-content);
+  color: #fff;
+}
+
+.toggle-switch .switch {
+  position: absolute;
+  width: 60px;
+  height: 26px;
+  border-radius: 13px;
+  background-color: #fff;
+  top: 2px;
+  left: 2px;
+  transition: transform 0.3s;
+}
+
+.toggle-switch .checkbox:checked + .label {
+  background-color: #0077cc;
+}
+
+.toggle-switch .checkbox:checked + .label .switch {
+  transform: translateX(56px);
+}
+
+/* ...existing code... */

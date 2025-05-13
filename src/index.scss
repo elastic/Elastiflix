@@ -53,8 +53,18 @@ body {
   max-height: 100px;
   object-fit: contain;
   opacity: 0.8;
-  transition: transform 0.45s;
+  transition: transform 1s, opacity 0.5s ease-in;
+  animation: fadeIn 0.5s ease-in;
   width: 100%;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.8;
+  }
 }
 
 .row__poster:hover {
@@ -83,6 +93,8 @@ body {
   position: relative;
   display: flex;
   align-items: center;
+  transition: transform 0.5s, opacity 0.2s ease-in;
+  animation: fadeIn 0.2s ease-in;
 
   &:before,
   &:after {
@@ -272,6 +284,11 @@ body {
   font-size: 14px;
 }
 
+.search_bar {
+  display: flex;
+  gap: 10px;
+}
+
 .search-box-container {
   width: 100%;
 }
@@ -281,6 +298,7 @@ body {
   align-items: center;
   justify-content: start;
   position: relative;
+  gap: 10px;
 
   .nav & {
     margin-right: 40px;
@@ -289,7 +307,11 @@ body {
   .search-header & {
     width: 100%;
   }
+
+ 
 }
+
+
 
 .search-box__input {
   width: initial;
@@ -339,7 +361,8 @@ body {
   width: 100%;
   display: flex;
   position: relative;
-
+  transition: transform 0.1s, opacity 0.1s ease-in;
+  animation: fadeIn 0.1s ease-in;
   &:before {
     content: '';
     position: absolute;
@@ -499,8 +522,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 2em;
+  margin-top: 1.5em;
   padding: 10px 40px;
+  gap: 10px;
+  width: 100%;
 
   form {
     display: flex;
@@ -648,6 +673,8 @@ input[type="checkbox"] {
   display: flex;
   background-size: cover;
   background-position: center;
+  transition: transform 0.2s, opacity 0.2s ease-in;
+  animation: fadeIn 0.2s ease-in;
 }
 
 .movie .container {
@@ -691,4 +718,76 @@ input[type="checkbox"] {
 }
 
 .movie .plot_text {
+}
+
+.toggle {
+  text-align: center;
+}
+.toggle .toggle-switch {
+  position: relative;
+  width: 6.5em;
+  display: inline-block;
+  text-align: left;
+  top: 4px;
+}
+.toggle .checkbox {
+  display: none;
+}
+.toggle .label {
+  display: block;
+  overflow: hidden;
+  cursor: pointer;
+  border: 0 solid #bbb;
+  border-radius: 20px;
+}
+.toggle .inner {
+  font-size: 0.9em;
+  display: block;
+  width: 200%;
+  margin-left: -100%;
+  transition: margin 0.3s ease-in 0s;
+}
+.toggle .inner:before,
+.inner:after {
+  float: left;
+  width: 50%;
+  height: 36px;
+  padding: 0;
+  line-height: 36px;
+  color: #fff;
+  font-weight: bold;
+  box-sizing: border-box;
+  
+}
+.toggle .inner:before {
+  content: var(--before-content);
+  padding-left: 10px;
+  background-color: rgb(202, 27, 118);
+  color: #fff;
+}
+.toggle .inner:after {
+  content: var(--after-content);
+  padding-right: 10px;
+  background-color: #3c3c3c;
+  color: #fff;
+  text-align: right;
+}
+.toggle .switch {
+  display: block;
+  width: 24px;
+  margin: 5px;
+  background: #fff;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 4.5em;
+  border: 0 solid #bbb;
+  border-radius: 20px;
+  transition: all 0.3s ease-in 0s;
+}
+.toggle .checkbox:checked + .label .inner {
+  margin-left: 0;
+}
+.toggle .checkbox:checked + .label .switch {
+  right: 0;
 }
