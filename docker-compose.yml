@@ -5,6 +5,8 @@ services:
     build: .
     ports:
       - "3000:3000"
+    volumes:
+      - ./src:/app/src
     environment:
       - NODE_ENV=production
       - REACT_APP_ES_SEARCH_API_KEY=T1pyZkRwUUJnSXFHY1NzQS1WOHY6a0J0TXZ6YjVUQmF3eFdUZjZjQ2tBUQ==
