@@ -1,5 +1,11 @@
-import ElasticsearchAPIConnector from "@elastic/search-ui-elasticsearch-connector";
-import { SearchBox, SearchProvider, Sorting } from "@elastic/react-search-ui";
+import {
+  Layout,
+  SearchProvider,
+  WithSearch,
+} from "@elastic/react-search-ui";
+import { Paging } from "@elastic/react-search-ui-views";
+import connector from "../services/searchConnector"; // Import the shared connector
+import { SearchBox, Sorting } from "@elastic/react-search-ui";
 import {
   EuiIcon,
 } from '@elastic/eui';
@@ -25,56 +31,9 @@ const renderInput = ({ getAutocomplete, getInputProps, getButtonProps }) => {
 
 
 function SearchPage() {
-  const connector = new ElasticsearchAPIConnector({
-    host: process.env.REACT_APP_SEARCH_ES,
-    index: process.env.REACT_APP_SEARCH_INDEX
-  },
-    (requestBody, requestState, queryConfig) => {
 
-      if (!requestState.searchTerm) return requestBody;
-
-      // transforming the query before sending to Elasticsearch using the requestState and queryConfig
-      const hybrid_search_query = {
-        retriever: {
-          rrf: {
-            retrievers: [
-              {
-                standard: {
-                  query: {}
-                }
-              },
-              {
-                standard: {
-                  query: {
-                    semantic: {
-                      field: "extra.plot_llm",
-                      query: requestState.searchTerm
-                    }
-                  }
-                }
-              }
-            ],
-            rank_window_size: 20,
-            rank_constant: 1
-          }
-        }
-      }
-
-      hybrid_search_query.retriever.rrf.retrievers[0].standard.query = requestBody.query;
-
-      //delete the original query and sort from requestBody
-      delete requestBody.query;
-      delete requestBody.sort;
-
-      //adding the new "retriever" clause to the requestBody
-      requestBody.retriever = hybrid_search_query.retriever;
-
-      return requestBody;
-    }
-  );
-
-  const configurationOptions = {
-    apiConnector: connector,
+  const config = {
+    apiConnector: connector, // Use the shared connector
     trackUrlState: true,
     alwaysSearchOnInitialLoad: true,
     autocompleteQuery: {
@@ -135,7 +94,7 @@ function SearchPage() {
 
   return (
 
-    <SearchProvider config={configurationOptions}>
+    <SearchProvider config={config}>
       <div className="search-page-wrapper">
         <Nav />
         <div className="search-header">

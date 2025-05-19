@@ -1,18 +1,13 @@
-import ElasticsearchAPIConnector from "@elastic/search-ui-elasticsearch-connector";
 import { SearchProvider, WithSearch } from "@elastic/react-search-ui";
 import React from "react";
 import { useLocation } from "react-router-dom";
 import Nav from "./Nav"
+import connector from '../services/searchConnector'; // Import the shared connector
 
 function Movie() {
 
     const location = useLocation();
     const movieId = new URLSearchParams(location.search).get("id");
-
-    const connector = new ElasticsearchAPIConnector({
-        host: process.env.REACT_APP_SEARCH_ES,
-        index: process.env.REACT_APP_SEARCH_INDEX
-    });
 
     const config = {
         initialState: {},
@@ -52,7 +47,7 @@ function Movie() {
             },
             result_size: 1
         },
-        apiConnector: connector,
+        apiConnector: connector, // Use the shared connector
         alwaysSearchOnInitialLoad: true,
         trackUrlState: false
     };

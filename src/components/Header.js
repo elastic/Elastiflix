@@ -1,12 +1,7 @@
-import ElasticsearchAPIConnector from "@elastic/search-ui-elasticsearch-connector";
+import connector from '../services/searchConnector'; // Import the shared connector
 import { SearchProvider, WithSearch } from "@elastic/react-search-ui";
 
 function Header() {
-  const connector = new ElasticsearchAPIConnector({
-    host: process.env.REACT_APP_SEARCH_ES,
-    index: process.env.REACT_APP_SEARCH_INDEX
-  });
-
   const config = {
     initialState: { sortDirection: "desc", sortField: "popularity", resultsPerPage: 1 }, // Only fetch 1 result
     searchQuery: {
@@ -24,7 +19,7 @@ function Header() {
         release_date: { raw: {} },
       },
     },
-    apiConnector: connector,
+    apiConnector: connector, // Use the imported shared connector
     alwaysSearchOnInitialLoad: true,
     trackUrlState: false,
   };

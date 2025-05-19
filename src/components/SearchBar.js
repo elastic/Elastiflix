@@ -1,10 +1,7 @@
-
-import ElasticsearchAPIConnector from "@elastic/search-ui-elasticsearch-connector";
-import { SearchProvider } from "@elastic/react-search-ui";
+import { SearchProvider, SearchBox } from "@elastic/react-search-ui";
 import { EuiIcon } from '@elastic/eui';
 import { useHistory } from "react-router-dom";
-import { SearchBox } from '@elastic/react-search-ui';
-
+import connector from '../services/searchConnector'; // Import the shared connector
 
 const renderInput = ({ getAutocomplete, getInputProps, getButtonProps }) => {
     return (
@@ -23,13 +20,8 @@ const renderInput = ({ getAutocomplete, getInputProps, getButtonProps }) => {
 
 function SearchBar() {
 
-    const connector = new ElasticsearchAPIConnector({
-        host: process.env.REACT_APP_SEARCH_ES,
-        index: process.env.REACT_APP_SEARCH_INDEX
-    });
-
     const configurationOptions = {
-        apiConnector: connector,
+        apiConnector: connector, // Use the shared connector
         trackUrlState: false,
         alwaysSearchOnInitialLoad: false,
         autocompleteQuery: {

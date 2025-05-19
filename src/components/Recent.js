@@ -1,20 +1,13 @@
-import ElasticsearchAPIConnector from "@elastic/search-ui-elasticsearch-connector";
-import { SearchProvider, WithSearch } from "@elastic/react-search-ui";
+import { SearchProvider, Results, WithSearch } from "@elastic/react-search-ui";
+import { Paging } from "@elastic/react-search-ui-views";
+import connector from '../services/searchConnector'; // Import the shared connector
 
 import ComingSoon from '../assets/coming-soon.png'
 
 function Recent() {
 
-  
-
-  const connector = new ElasticsearchAPIConnector({
-    host: process.env.REACT_APP_SEARCH_ES,
-    index: process.env.REACT_APP_SEARCH_INDEX
-  });
-
-
   const config = {
-    apiConnector: connector,
+    apiConnector: connector, // Use the shared connector
     alwaysSearchOnInitialLoad: true,
     initialState: { 
       sortList: [
