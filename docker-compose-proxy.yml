@@ -1,0 +1,24 @@
+services:
+  elastiflix:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+      - REACT_APP_SEARCH_ES=http://localhost:17700
+      - REACT_APP_SEARCH_INDEX=elastiflix-movies
+    restart: unless-stopped
+    volumes:
+      - ./src:/app/src
+    depends_on:
+      - proxy
+
+  proxy:
+    build: ./nginx-proxy
+    ports:
+      - "17700:17700"
+    environment:
+      - ES_URL=https://elastiflix-dev-9-0.es.us-central1.gcp.cloud.es.io
+      - ES_API_KEY=T1pyZkRwUUJnSXFHY1NzQS1WOHY6a0J0TXZ6YjVUQmF3eFdUZjZjQ2tBUQ==
+    restart: unless-stopped
