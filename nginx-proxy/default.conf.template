@@ -23,8 +23,4 @@ server {
         proxy_set_header X-Forwarded-Proto $scheme;
     }
 
-    # Health check endpoint
-    location /health {
-        return 200 'OK';
-    }
 }
