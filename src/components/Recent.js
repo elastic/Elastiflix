@@ -5,10 +5,11 @@ import ComingSoon from '../assets/coming-soon.png'
 
 function Recent() {
 
+  
+
   const connector = new ElasticsearchAPIConnector({
-    host: process.env.REACT_APP_ES_BASE_URL,
-    index: process.env.REACT_APP_INDEX_NAME,
-    apiKey: process.env.REACT_APP_ES_SEARCH_API_KEY,
+    host: process.env.REACT_APP_SEARCH_ES,
+    index: process.env.REACT_APP_SEARCH_INDEX
   });
 
 

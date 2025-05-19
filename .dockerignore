@@ -36,5 +36,7 @@ dist
 ehthumbs.db
 Thumbs.db
 
+.env
+
 # Data loader files
 data-loader/movies/tmp/
