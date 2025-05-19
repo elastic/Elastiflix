@@ -1,0 +1,24 @@
+server {
+    listen 17700;
+
+    location / {
+
+
+        add_header 'Access-Control-Allow-Origin' "*";
+        add_header 'Access-Control-Allow-Headers' 'X-Found-Cluster,Authorization,Accept,Origin,DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range';
+        add_header 'Access-Control-Allow-Methods' 'GET,POST,OPTIONS,PUT,DELETE,PATCH';
+
+
+        # Proxy pass to Elastic Cloud
+        proxy_pass ${ES_URL};
+        proxy_set_header Authorization "ApiKey ${ES_API_KEY}";
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # Health check endpoint
+    location /health {
+        return 200 'OK';
+    }
+}
