@@ -1,10 +1,7 @@
 import {
-  Layout,
-  SearchProvider,
-  WithSearch,
+  SearchProvider
 } from "@elastic/react-search-ui";
-import { Paging } from "@elastic/react-search-ui-views";
-import connector from "../services/searchConnector"; // Import the shared connector
+import connector from "../services/SearchConnector"; // Import the shared connector
 import { SearchBox, Sorting } from "@elastic/react-search-ui";
 import {
   EuiIcon,
@@ -24,7 +21,6 @@ const renderInput = ({ getAutocomplete, getInputProps, getButtonProps }) => {
           placeholder: "Movie, cast or theme..."
         })}
       />
-      {getAutocomplete()}
     </div>
   )
 }
@@ -36,26 +32,7 @@ function SearchPage() {
     apiConnector: connector, // Use the shared connector
     trackUrlState: true,
     alwaysSearchOnInitialLoad: true,
-    autocompleteQuery: {
-      results: {
-        resultsPerPage: 3,
-        result_fields: {
-          title: {
-            raw: {
-              size: 100
-            }
-          }
-        }
-      },
-      suggestions: {
-        types: {
-          // Limit query to only suggest based on "title" field
-          documents: { fields: ["title"] }
-        },
-        // Limit the number of suggestions returned from the server
-        size: 3
-      }
-    },
+
     searchQuery: {
       disjunctiveFacets: ["genres"],
       resultsPerPage: 10,
@@ -100,36 +77,7 @@ function SearchPage() {
         <div className="search-header">
           <SearchBox
             inputView={renderInput}
-            searchAsYouType={true}
-            autocompleteMinimumCharacters={2}
-            autocompleteResults={{
-              linkTarget: "_blank",
-              sectionTitle: "Results",
-              titleField: "title",
-              urlField: "nps_link",
-              shouldTrackClickThrough: true,
-              clickThroughTags: ["test"]
-            }}
             className="search-box-container"
-          />
-          <Sorting
-            className="sidebar-sort"
-            sortOptions={[
-              {
-                name: 'Relevance',
-                value: '',
-                direction: '',
-              },
-              {
-                name: 'Release date (Desc)',
-                value: 'release_date',
-                direction: 'desc',
-              },
-              {
-                name: 'Release date (Asc)',
-                value: 'release_date',
-                direction: 'asc',
-              }]}
           />
         </div>
         <Results />

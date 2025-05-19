@@ -8,7 +8,6 @@ body {
   overflow-x: hidden;
   box-sizing: border-box;
   background-color: #1D1E23;
-  color: #fff;
   font-family: "Inter", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
@@ -350,8 +349,6 @@ body {
   bottom: 0;
   z-index: 2;
   pointer-events: none;
-  -webkit-filter: invert(100%);
-    filter: invert(100%);
 }
 
 
@@ -681,7 +678,7 @@ input[type="checkbox"] {
   align-content: center;
   flex-wrap: wrap;
   background-color: #000000aa;
-  
+  color: #fff;
   display: flex;
   padding-left: 2em;
 }

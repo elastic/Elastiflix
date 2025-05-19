@@ -1,9 +1,9 @@
 import { SearchProvider, SearchBox } from "@elastic/react-search-ui";
 import { EuiIcon } from '@elastic/eui';
 import { useHistory } from "react-router-dom";
-import connector from '../services/searchConnector'; // Import the shared connector
+import connector from '../services/SearchConnector'; // Import the shared connector
 
-const renderInput = ({ getAutocomplete, getInputProps, getButtonProps }) => {
+const renderInput = ({ getInputProps }) => {
     return (
         <div className="search-box">
             <EuiIcon className="search-box__icon" type="search" />
@@ -13,66 +13,29 @@ const renderInput = ({ getAutocomplete, getInputProps, getButtonProps }) => {
                     placeholder: "Search by title, cast name..."
                 })}
             />
-            {getAutocomplete()}
         </div>
     )
 }
 
 function SearchBar() {
 
+    const history = useHistory();
+
     const configurationOptions = {
         apiConnector: connector, // Use the shared connector
         trackUrlState: false,
-        alwaysSearchOnInitialLoad: false,
-        autocompleteQuery: {
-            results: {
-                result_fields: {
-                    title: {
-                        snippet: {
-                            size: 100
-                        }
-                    }
-                }
-            },
-            suggestions: {
-                types: {
-                    // Limit query to only suggest based on "title" field
-                    documents: { fields: ["title"] }
-                },
-                // Limit the number of suggestions returned from the server
-                size: 2
-            }
-        }
+        alwaysSearchOnInitialLoad: false
     };
-
-
-
-    const history = useHistory();
 
     return (
         <SearchProvider config={configurationOptions}>
 
             <SearchBox
-                searchAsYouType={true}
                 inputView={renderInput}
-                autocompleteMinimumCharacters={2}
-                autocompleteResults={{
-                    linkTarget: "_blank",
-                    sectionTitle: "Results",
-                    titleField: "title",
-                    urlField: "nps_link",
-                    shouldTrackClickThrough: true,
-                    clickThroughTags: ["test"]
-                }}
                 debounceLength={0}
                 onSubmit={searchTerm => {
                     history.push("/search?q=" + searchTerm);
                     window.location.href = "/search?q=" + searchTerm;
-                }}
-                onSelectAutocomplete={(selection) => {
-                    if (selection.title) {
-                        window.location.href = "/search?q=" + selection.title.raw;
-                    }
                 }}
             />
         </SearchProvider>

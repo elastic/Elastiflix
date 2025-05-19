@@ -2,7 +2,7 @@ import { SearchProvider, WithSearch } from "@elastic/react-search-ui";
 import React from "react";
 import { useLocation } from "react-router-dom";
 import Nav from "./Nav"
-import connector from '../services/searchConnector'; // Import the shared connector
+import connector from '../services/SearchConnector'; // Import the shared connector
 
 function Movie() {
 

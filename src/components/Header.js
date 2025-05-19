@@ -1,4 +1,4 @@
-import connector from '../services/searchConnector'; // Import the shared connector
+import connector from '../services/SearchConnector'; // Import the shared connector
 import { SearchProvider, WithSearch } from "@elastic/react-search-ui";
 
 function Header() {
