@@ -3,7 +3,7 @@ import { SearchProvider, WithSearch } from "@elastic/react-search-ui";
 
 function Header() {
   const config = {
-    initialState: { sortDirection: "desc", sortField: "popularity", resultsPerPage: 1 }, // Only fetch 1 result
+    initialState: { resultsPerPage: 1 }, // Only fetch 1 result
     searchQuery: {
       filters: [
         {
