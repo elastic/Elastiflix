@@ -1,13 +1,19 @@
 server {
     listen 17700;
-
+    
     location / {
 
+        if ($request_method = 'OPTIONS') {
+            
+            add_header 'Access-Control-Allow-Origin' "*" always;
+            add_header 'Access-Control-Allow-Methods' 'GET,POST,OPTIONS,PUT,DELETE,PATCH' always;
+            add_header 'Access-Control-Allow-Headers' 'x-elastic-client-meta,X-Found-Cluster' always;
 
-        add_header 'Access-Control-Allow-Origin' "*";
-        add_header 'Access-Control-Allow-Headers' 'X-Found-Cluster,Authorization,Accept,Origin,DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range';
-        add_header 'Access-Control-Allow-Methods' 'GET,POST,OPTIONS,PUT,DELETE,PATCH';
+            add_header 'Access-Control-Max-Age' 1728000 always; 
+            add_header 'Content-Length' 0;
 
+            return 204; 
+        }
 
         # Proxy pass to Elastic Cloud
         proxy_pass ${ES_URL};
