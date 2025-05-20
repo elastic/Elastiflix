@@ -6,7 +6,6 @@ import Layout from './Layout.js';
 import Movie from './Movie';
 
 
-
 const Routes = () => (
     <>
         <Switch>
