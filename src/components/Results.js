@@ -3,12 +3,21 @@ import {
     EuiFlexGroup,
     EuiFlexItem,
     EuiSpacer,
+    EuiLoadingSpinner
 } from '@elastic/eui';
 import Card from "./Card"
 import { MultiCheckboxFacet } from "@elastic/react-search-ui-views";
 
 
-function Results({ results, totalResults }) {
+function Results({ results, totalResults, isLoading }) {
+
+    if (isLoading) {
+        return (
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '300px' }}>
+                <EuiLoadingSpinner size="xl" />
+            </div>
+        );
+    }
 
     return (
         totalResults ?
@@ -35,6 +44,6 @@ function Results({ results, totalResults }) {
 }
 
 
-export default withSearch(({ results, totalResults }) => ({
-    results, totalResults
+export default withSearch(({ results, totalResults, isLoading }) => ({
+    results, totalResults, isLoading
 }))(Results);
