@@ -44,8 +44,6 @@ const connector = new ElasticsearchAPIConnector(connectorOptions, (requestBody, 
 
     //adding the new "retriever" clause to the requestBody
     requestBody.retriever = body.retriever;
-    
-    // For fulltext search, we keep the default query structure
 
     return requestBody;
   });

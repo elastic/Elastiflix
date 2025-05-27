@@ -29,7 +29,7 @@ const renderInput = ({ getAutocomplete, getInputProps, getButtonProps }) => {
 function SearchPage() {
 
   const config = {
-    apiConnector: connector, 
+    apiConnector: connector, // Use the shared connector
     trackUrlState: true,
     alwaysSearchOnInitialLoad: true,
     searchQuery: {
