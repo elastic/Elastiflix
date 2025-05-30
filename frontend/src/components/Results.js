@@ -22,7 +22,15 @@ function Results({ results, totalResults, isLoading }) {
     return (
         totalResults ?
             <EuiFlexGroup gutterSize='l'>
-
+                <EuiFlexItem grow={false}>
+                        <EuiFlexGroup gutterSize="xs" direction="column" style={{ paddingLeft: "40px" }}>
+                                <EuiFlexItem grow={false}><Facet field="cast" label="Cast member" showSearch={true} view={MultiCheckboxFacet} /></EuiFlexItem>
+                                <EuiFlexItem grow={false}><Facet field="genres" label="Genres" showSearch={true} view={MultiCheckboxFacet} filterType="any" /></EuiFlexItem>
+                                <EuiFlexItem grow={false}><Facet field="user_score" label="User score" view={MultiCheckboxFacet} /></EuiFlexItem>
+                                <EuiFlexItem grow={false}><Facet field="runtime" label="Runtime" view={MultiCheckboxFacet} /></EuiFlexItem>
+                                <EuiFlexItem grow={false}><Facet field="production_companies" showSearch={true} label="Production company" view={MultiCheckboxFacet} /></EuiFlexItem>
+                        </EuiFlexGroup>
+                </EuiFlexItem>
                 <EuiFlexItem style={{ paddingLeft: "40px", paddingRight: "40px" }}>
                     <EuiSpacer />
                     <EuiFlexGroup direction="column">
