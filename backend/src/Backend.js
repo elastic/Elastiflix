@@ -25,4 +25,8 @@ app.post("/api/autocomplete", async (req, res) => {
   res.json(response);
 });
 
+app.get("/", (req, res) => {
+  res.send("Hello from the backend!");
+});
+
 app.listen(17700);
