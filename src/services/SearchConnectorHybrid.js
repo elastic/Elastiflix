@@ -30,7 +30,7 @@ const connector = new ElasticsearchAPIConnector(connectorOptions, (requestBody, 
               }
             }
           ],
-          rank_window_size: 20,
+          rank_window_size: 200,
           rank_constant: 1
         }
       }

@@ -7,8 +7,7 @@ services:
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true
       - REACT_APP_SEARCH_ES=https://elastiflix-dev-9-0.es.us-central1.gcp.cloud.es.io
-      - REACT_APP_SEARCH_API_KEY=LUh0WDlKWUJhdDAzdlExUGVfRFU6M1BtenhHczhOS2wyUHBnRlNUUnJDQQ==
+      - REACT_APP_SEARCH_API_KEY=${ELASTIFLIX-ECH-API-KEY}
       - REACT_APP_SEARCH_INDEX=elastiflix-movies
-    restart: unless-stopped
     volumes:
       - ./src:/app/src

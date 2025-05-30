@@ -6,7 +6,7 @@ services:
     environment:
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true
-      - REACT_APP_SEARCH_ES=http://localhost:17700
+      - REACT_APP_SEARCH_ES=${ES_PROXY}
       - REACT_APP_SEARCH_INDEX=elastiflix-movies
     restart: unless-stopped
     volumes:
@@ -20,5 +20,5 @@ services:
       - "17700:17700"
     environment:
       - ES_URL=https://elastiflix-dev-9-0.es.us-central1.gcp.cloud.es.io
-      - ES_API_KEY=T1pyZkRwUUJnSXFHY1NzQS1WOHY6a0J0TXZ6YjVUQmF3eFdUZjZjQ2tBUQ==
+      - ES_API_KEY=${ELASTIFLIX-ECH-API-KEY}
     restart: unless-stopped

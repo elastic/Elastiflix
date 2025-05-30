@@ -22,7 +22,7 @@ function Results({ results, totalResults, isLoading }) {
     return (
         totalResults ?
             <EuiFlexGroup gutterSize='l'>
-                
+
                 <EuiFlexItem style={{ paddingLeft: "40px", paddingRight: "40px" }}>
                     <EuiSpacer />
                     <EuiFlexGroup direction="column">

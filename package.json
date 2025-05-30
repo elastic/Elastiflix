@@ -1,5 +1,5 @@
 {
-  "name": "streaming-ui",
+  "name": "elastiflix",
   "version": "0.2.0",
   "private": true,
   "dependencies": {
@@ -7,8 +7,8 @@
     "@elastic/datemath": "^5.0.3",
     "@elastic/elasticsearch": "^9.0.1",
     "@elastic/eui": "98.2.1",
-    "@elastic/react-search-ui": "^1.23.1",
-    "@elastic/search-ui-elasticsearch-connector": "^1.23.1",
+    "@elastic/react-search-ui": "1.24.1",
+    "@elastic/search-ui-elasticsearch-connector": "1.24.1",
     "@emotion/css": "11",
     "@emotion/react": "^11.14.0",
     "@types/react": "^18.0",
