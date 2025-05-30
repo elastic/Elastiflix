@@ -1,13 +1,28 @@
 services:
   elastiflix:
-    build: .
+    build: ./frontend
     ports:
       - "3000:3000"
     environment:
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true
-      - REACT_APP_SEARCH_ES=https://elastiflix-dev-9-0.es.us-central1.gcp.cloud.es.io
-      - REACT_APP_SEARCH_API_KEY=${ELASTIFLIX-ECH-API-KEY}
-      - REACT_APP_SEARCH_INDEX=elastiflix-movies
+      - REACT_APP_ES_API=http://localhost:17700/api
     volumes:
-      - ./src:/app/src
+      - ./frontend/src:/app/src
+    depends_on:
+      - backend
+
+
+  backend:
+    build: ./backend
+    ports:
+      - "17700:17700"
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+      - ES_HOST=https://elastiflix-dev-9-0.es.us-central1.gcp.cloud.es.io
+      - ES_API_KEY=${ELASTIFLIX_ECH_API_KEY}
+      - ES_INDEX=elastiflix-movies
+    volumes:
+      - ./backend/src:/app/src
+      
