@@ -20,5 +20,5 @@ services:
       - "17700:17700"
     environment:
       - ES_URL=https://elastiflix-dev-9-0.es.us-central1.gcp.cloud.es.io
-      - ES_API_KEY=${ELASTIFLIX-ECH-API-KEY}
+      - ES_API_KEY=${ELASTIFLIX_ECH_API_KEY}
     restart: unless-stopped
