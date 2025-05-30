@@ -6,12 +6,11 @@ services:
     environment:
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true
-      - REACT_APP_ES_API=${ES_BACKEND}/api
+      - REACT_APP_ES_API=http://localhost:17700/api
     volumes:
       - ./frontend/src:/app/src
     depends_on:
       - backend
-
 
   backend:
     build: ./backend
@@ -25,4 +24,3 @@ services:
       - ES_INDEX=elastiflix-movies
     volumes:
       - ./backend/src:/app/src
-      
