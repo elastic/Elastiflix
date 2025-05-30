@@ -1,7 +1,7 @@
 import {
   SearchProvider
 } from "@elastic/react-search-ui";
-import connector from "../services/SearchConnectorHybrid"; 
+import connector from "../services/SearchConnector"; 
 import { SearchBox, Sorting } from "@elastic/react-search-ui";
 import {
   EuiIcon,
