@@ -3,20 +3,14 @@ import cors from "cors";
 import ElasticsearchAPIConnector from "@elastic/search-ui-elasticsearch-connector";
 
 const app = express();
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      if (!origin) return callback(null, true);
-      const isLocalhost = origin.startsWith("http://localhost");
-      const isInstruqt = origin.endsWith(".env.play.instruqt.com");
-      if (isLocalhost || isInstruqt) {
-        return callback(null, true);
-      }
-      return callback(new Error("Not allowed by CORS"));
-    },
-    credentials: true
-  })
-);
+if (process.env.LOCAL) {
+  app.use(
+    cors({
+      origin: "http://localhost:3000",
+      credentials: true
+    })
+  );
+}
 app.use(express.json());
 
 const connector = new ElasticsearchAPIConnector({
