@@ -1,6 +1,6 @@
 {
   "name": "elastiflix-backend",
-  "version": "1.0.0",
+  "version": "0.2.0",
   "description": "Backend API for Elastiflix demo using Express and @elastic/search-ui-elasticsearch-connector.",
   "main": "src/Backend.js",
   "type": "module",
