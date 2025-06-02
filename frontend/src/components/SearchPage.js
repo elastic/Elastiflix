@@ -34,9 +34,10 @@ function SearchPage() {
     alwaysSearchOnInitialLoad: true,
 
     searchQuery: {
-      search_fields: {  //adding search_fields
+      search_fields: {  
         title: { weight: 2 },
-        overview: {}
+        overview: {},
+        plot: {}
       },
       disjunctiveFacets: ["genres"],
       resultsPerPage: 10,
