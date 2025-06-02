@@ -1,5 +1,8 @@
 {
   "properties": {
+    "id": {
+      "type": "keyword"
+    },
     "original_language": {
       "type": "keyword"
     },
@@ -85,15 +88,21 @@
     "status": {
       "type": "keyword"
     },
-    "extra": {
-      "type": "object",
-      "properties": {
-        "plot_llm": {
-          "type": "semantic_text",
-          "inference_id": "my-elser-model"
-        }
+    "plot": {
+        "type": "text",
+        "copy_to": [
+          "plot_elser",
+          "plot_e5"
+        ]
+      },
+      "plot_elser": {
+        "type": "semantic_text",
+        "inference_id": "elser"
+      },
+      "plot_e5": {
+        "type": "semantic_text",
+        "inference_id": "e5"
       }
-    }
   }
 }
 

@@ -21,7 +21,7 @@ const HybridConnector = new ElasticsearchAPIConnector({
               standard: {
                 query: {
                   semantic: {
-                    field: "extra.plot_llm",
+                    field: "plot_elser",
                     query: requestState.searchTerm
                   }
                 }

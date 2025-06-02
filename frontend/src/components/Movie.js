@@ -36,10 +36,8 @@ function Movie() {
                 cast: {
                     snippet: {}
                 },
-                extra: {
-                    plot_llm: {
-                        snippet: {}
-                    }
+                plot: {
+                    raw: {}
                 },
                 id: {
                     snippet: {}
@@ -92,11 +90,11 @@ function Movie() {
                                       
                                 </div>
                                 <div className="right">
-                                {results[0]?.hasOwnProperty("extra") && 
+                                {results[0]?.hasOwnProperty("plot") && 
                                     ( 
                                         <div className="plot">
                                             <h3>Plot</h3>
-                                            <p className="plot_text">{results[0].extra.raw.plot_llm.text}</p>
+                                            <p className="plot_text">{results[0].plot.raw}</p>
                                         </div> 
                                     )} 
 
