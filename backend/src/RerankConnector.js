@@ -3,7 +3,10 @@ import ElasticsearchAPIConnector from "@elastic/search-ui-elasticsearch-connecto
 const RerankConnector = new ElasticsearchAPIConnector({
   host: process.env.ES_HOST,
   index: process.env.ES_INDEX,
-  apiKey: process.env.ES_API_KEY
+  apiKey: process.env.ES_API_KEY,
+  connectionOptions: {
+    requestTimeout: 30000  
+  }
 },(requestBody, requestState, queryConfig) => {
 
     if (!requestState.searchTerm) return requestBody;
@@ -17,6 +20,7 @@ const RerankConnector = new ElasticsearchAPIConnector({
                     }
                 },
                 field: "title",
+                inference_id: "rerank",
                 inference_text: requestState.searchTerm,
                 rank_window_size: 100            
             }

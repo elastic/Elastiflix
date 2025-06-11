@@ -29,8 +29,7 @@ with gzip.open('movies.json.gz', 'r') as movies:
                 print(chunk['message']['content'], end='', flush=True)
             
             if "404" not in response and "I don't" not in response:
-                movie['extra'] = dict()
-                movie['extra']['plot_llm'] = response
+                movie['plot'] = response
 
             with open(f"tmp/{movie['id']}.json", 'w') as movie_output:
                 json.dump(movie, movie_output, indent=2, sort_keys=True, ensure_ascii=False)

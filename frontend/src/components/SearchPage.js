@@ -10,7 +10,6 @@ import {
 import Results from "./Results"
 import Nav from "./Nav"
 
-
 const renderInput = ({ getAutocomplete, getInputProps, getButtonProps }) => {
   return (
     <div className="search-box">
