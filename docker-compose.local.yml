@@ -20,8 +20,8 @@ services:
       - LOCAL=true
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true
-      - ES_HOST=https://elastiflix-dev-9-0.es.us-central1.gcp.cloud.es.io
-      - ES_API_KEY=${ELASTIFLIX_ECH_API_KEY}
+      - ES_HOST=https://es_host_here.es.us-east-1.aws.elastic.cloud:443
+      - ES_API_KEY=api_key_here
       - ES_INDEX=elastiflix-movies
     volumes:
       - ./backend/src:/app/src
