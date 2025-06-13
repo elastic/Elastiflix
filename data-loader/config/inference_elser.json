@@ -1,0 +1,18 @@
+{
+  "task_type": "sparse_embedding",
+  "service": "elasticsearch",
+  "service_settings": {
+    "num_threads": 4,
+    "model_id": ".elser_model_2_linux-x86_64",
+    "adaptive_allocations": {
+      "enabled": true,
+      "min_number_of_allocations": 2,
+      "max_number_of_allocations": 32
+    }
+  },
+  "chunking_settings": {
+    "strategy": "sentence",
+    "max_chunk_size": 200,
+    "sentence_overlap": 1
+  }
+}
