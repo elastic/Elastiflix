@@ -1,3 +1,4 @@
+# this file is used to run Elastiflix in production mode using environment variables.
 services:
   elastiflix:
     build: ./frontend
@@ -6,7 +7,7 @@ services:
     environment:
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true
-      - REACT_APP_ES_API=http://localhost:17700/api
+      - REACT_APP_ES_API=${ES_BACKEND}/api
     volumes:
       - ./frontend/src:/app/src
     depends_on:
@@ -17,11 +18,10 @@ services:
     ports:
       - "17700:17700"
     environment:
-      - LOCAL=true
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true
-      - ES_HOST=https://es_host_here.es.us-east-1.aws.elastic.cloud:443
-      - ES_API_KEY=api_key_here
-      - ES_INDEX=elastiflix-movies
+      - ES_HOST=${ELASTIFLIX_ES_HOST}
+      - ES_API_KEY=${ELASTIFLIX_ECH_API_KEY}
+      - ES_INDEX=${ELASTIFLIX_ES_INDEX}
     volumes:
       - ./backend/src:/app/src
