@@ -10,7 +10,7 @@ function Card(props) {
         <div className="image">
           <div className="poster">
 
-            <img loading="lazy" className="poster" src={!props.movie.poster_path.raw ? ComingSoon : `https://image.tmdb.org/t/p/original/${props.movie.poster_path.raw}`} alt={props.movie.title.raw} />
+            <img loading="lazy" className="poster" src={!props.movie.poster_path.raw ? ComingSoon : `https://image.tmdb.org/t/p/w300_and_h450_bestv2/${props.movie.poster_path.raw}`} alt={props.movie.title.raw} />
           </div>
         </div>
         <div className="details">
