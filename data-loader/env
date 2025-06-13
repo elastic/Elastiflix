@@ -1,7 +1,0 @@
-ELASTICSEARCH_PASSWORD=
-AS_BASE_URL=
-CLOUD_ID=
-ENGINE_NAME=tmdb
-DATA_FOLDER=/opt/tmdb-data
-ANALYTICS_FOLDER=/opt/analytics-data/
-CONFIG_FOLDER=/opt/tmdb-config

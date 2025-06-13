@@ -1,0 +1,30 @@
+{
+  "name": "elastiflix-backend",
+  "version": "0.2.0",
+  "description": "Backend API for Elastiflix demo using Express and @elastic/search-ui-elasticsearch-connector.",
+  "main": "src/Backend.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/Backend.js",
+    "dev": "nodemon src/Backend.js"
+  },
+  "dependencies": {
+    "@elastic/search-ui-elasticsearch-connector": "^1.8.0",
+    "express": "^4.18.2",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "elasticsearch",
+    "express",
+    "search-ui",
+    "demo"
+  ],
+  "author": "Your Name",
+  "license": "MIT"
+}

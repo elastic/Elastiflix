@@ -1,0 +1,18 @@
+{
+  "task_type": "text_embedding",
+  "service": "elasticsearch",
+  "service_settings": {
+    "model_id": ".multilingual-e5-small_linux-x86_64",
+    "adaptive_allocations": {
+      "enabled": true,
+      "min_number_of_allocations": 1,
+      "max_number_of_allocations": 32
+    },
+    "num_threads": 4
+  },
+  "chunking_settings": {
+    "strategy": "sentence",
+    "max_chunk_size": 100,
+    "sentence_overlap": 1
+  }
+}

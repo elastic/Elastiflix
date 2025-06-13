@@ -1,130 +1,95 @@
-# Index Data from TMDB (JSON files representing the movies) into Elastic Cloud
-# Arguments:
-#   - data_folder: Directory containing the Movie JSON files
-#   - config_folder: Directory containing the Elastic relevance configuration JSON files
-#   - es_user: User name for Elastic Cloud
-#   - es_password: Password for Elastic Cloud
-#   - as_host: Endpoint for Elastic Cloud App Search instance
-#   - engine_name: Name of the Elastic Cloud engine
-#   - cloud_id: Url of the Elastic Cloud ID
-
 import json
 import os
 import argparse
 import gzip
-from elastic_enterprise_search import AppSearch
-from elasticsearch import Elasticsearch, helpers
-import time
-import random
-# index: Index the data from the JSON files into Elastic Cloud
-# Arguments:
-#   - moviesFile: Filepath containing the movies JSON data
-def index(moviesFile):
-  moviesJson = json.load(moviesFile)
+from elasticsearch import Elasticsearch, helpers, NotFoundError
+from tqdm import tqdm
 
-  count = 0
-  movies = []
-  for movie in moviesJson:
-
-    movies.append(movie)
-    count = count + 1
-
-    if count >= 100:
-      response = app_search.index_documents(engine_name=args.engine_name,documents=movies)
-      movies = []
-      count = 0
-      time.sleep(5)
-      print(".", end='', flush=True)
-
-parser = argparse.ArgumentParser()
-#required args
-parser.add_argument('--data_folder', dest='data_folder', required=False, default='movies')
-parser.add_argument('--config_folder', dest='config_folder', required=False, default='config')
-parser.add_argument('--private_key', dest='pkey', required=False, default='config')
-parser.add_argument('--as_host', dest='as_host', required=True)
-parser.add_argument('--analytics_folder', dest='analytics_folder', required=False, default='analytics')
-parser.add_argument('--engine_name', dest='engine_name', required=False, default='movies')
-args = parser.parse_args()
-
-# print("App search credentials found")
-app_search = AppSearch(
-    args.as_host,
-    bearer_auth=args.pkey,
-    request_timeout=600
-)
-print("Create engine")
-app_search.create_engine(engine_name=args.engine_name)
-print("Engine created")
-
-print("Update engine schema...")
-schemaConfig = open(os.path.join(args.config_folder, "schema.json") , "r")
-schemaJson = json.load(schemaConfig)
-
-resp = app_search.put_schema(
-    engine_name=args.engine_name,
-    schema=schemaJson
-)
-print("Done")
-
-print("Indexing data to App Search...")
-moviesFile = gzip.open(os.path.join(args.data_folder, "movies.json.gz"), 'rt')
-index(moviesFile)
-# time.sleep(280)
-print("Done")
-
-print("Upload synonyms set...")
-synonymsConfig = open(os.path.join(args.config_folder, "synonyms.json"), "r")
-synonymsConfig = json.load(synonymsConfig)
-for synonym in synonymsConfig:
-    app_search.create_synonym_set(engine_name=args.engine_name,synonyms=synonym)
-print("Done")
+def actions_generator(movies_json, index_name):
+    for movie in movies_json:
+        movie["_index"] = index_name
+        movie["_id"] = movie['id']
+        yield movie
 
 
-print("Update engine relevancy...")
-relevancyConfig = open(os.path.join(args.config_folder, "relevancy.json"), "r")
-relevancyJson = json.load(relevancyConfig)
-app_search.put_search_settings(engine_name=args.engine_name, boosts=relevancyJson['boosts'], precision=relevancyJson['precision'], result_fields=relevancyJson['result_fields'], search_fields=relevancyJson['search_fields'])
-print("Done")
+def main():
+    parser = argparse.ArgumentParser()
+    
+    # Required arguments
+    parser.add_argument('--data_folder', dest='data_folder', required=False, default='movies')
+    parser.add_argument('--config_folder', dest='config_folder', required=False, default='config')
+    parser.add_argument('--es_api_key', dest='es_api_key', required=True)
+    parser.add_argument('--es_host', dest='es_host', required=True)
+    parser.add_argument('--index_name', dest='index_name', required=False, default='movies')
+    parser.add_argument('--recreate', dest='recreate', action=argparse.BooleanOptionalAction, required=False, default=False)
+    parser.add_argument('--create_inference_endpoints', dest='create_inference_endpoints', action=argparse.BooleanOptionalAction, required=False, default=False)
 
 
+    args = parser.parse_args()
 
-
-print("Generate analytics sample...")
-# Build terms list from generated terms, popular cast, Queries with no click, and queries with no results
-terms = open(os.path.join(args.analytics_folder, "terms.txt"), "r")
-terms_array = []
-for term in terms.readlines():
-    terms_array.append(term)
-
-cast_popular_json = json.load(open(os.path.join(args.analytics_folder, "cast_popular.json"), "r"))
-c_cast = 0
-while c_cast < 20:
-    terms_array.append(cast_popular_json[c_cast]['name'].replace('.csv', '').lower())
-    c_cast += 1
-
-no_results_terms_file = open(os.path.join(args.analytics_folder, "query_no_results.txt"), "r")
-for no_results_term in no_results_terms_file.readlines():
-    terms_array.append(no_results_term.rstrip('\n'))
-
-
-for term in terms_array:
-    results = app_search.search(
-        engine_name=args.engine_name,
-        query=term,
-        page_size=10,
-        result_fields={"id": {"raw": {}}}
+    es_client = Elasticsearch(
+        hosts=args.es_host,
+        api_key=args.es_api_key,
+        request_timeout=300
     )
 
-    # Randomly decide to generate a click for this search and than randomly pick result in list to generate click
-    if random.choice([True, False]) is True:
-        if len(results['results']) > 0:
-            # print(results)
-            chosen_document = random.choice(results['results'])
-            if chosen_document['id']:
-                resp = app_search.log_clickthrough(
-                    engine_name=args.engine_name,
-                    query=term,
-                    document_id=chosen_document['id']['raw'],
-                    request_id=results['meta']['request_id']
-                )
-print("Done")
+    # Re-create the index if --recreate is passed
+    if args.recreate:
+        try:
+            es_client.indices.delete(index=args.index_name)
+            print(f'Deleted index {args.index_name}')
+        except:
+            pass
+
+    # Create index with schema mapping
+    if not es_client.indices.exists(index=args.index_name):
+        
+        schema_path = os.path.join(args.config_folder, "schema.json")
+        with open(schema_path, 'r') as schema_file:
+            schema = json.load(schema_file)
+
+        es_client.indices.create(index=args.index_name, mappings=schema)
+        es_client.indices.put_settings(index=args.index_name, settings={'index.number_of_replicas': 0})
+        print(f"Index '{args.index_name}' created with the specified schema.")
+
+    #Create inference endpoints for e5, elser and elser if they do not exist
+    if args.create_inference_endpoints:
+        print("Checking inference endpoints (ELSER)...")
+        try:
+            es_client.inference.get(inference_id="elser")
+        except NotFoundError as e:
+            print("Creating ELSER inference endpoint ...")
+            inference_config = json.load(open(os.path.join(args.config_folder, "inference_elser.json"), 'r'))
+            es_client.inference.put(inference_id="elser", inference_config=inference_config)
+
+        print("Checking inference endpoints (e5)...")
+        try:
+            es_client.inference.get(inference_id="e5")
+        except NotFoundError as e:
+            print("Creating e5 inference endpoint ...")
+            inference_config = json.load(open(os.path.join(args.config_folder, "inference_e5.json"), 'r'))
+            es_client.inference.put(inference_id="e5", inference_config=inference_config)
+
+        print("Checking inference endpoints (rerank)...")
+        try:
+            es_client.inference.get(inference_id="rerank")
+        except NotFoundError as e:
+            print("Creating rerank inference endpoint ...")
+            inference_config = json.load(open(os.path.join(args.config_folder, "inference_rerank.json"), 'r'))
+            es_client.inference.put(inference_id="rerank", inference_config=inference_config)
+
+    print("Indexing data into Elasticsearch...")
+    movies_file_path = os.path.join(args.data_folder, "movies.json.gz")
+    with gzip.open(movies_file_path, 'rt') as file:
+        movies_json = json.load(file)
+
+    progress = tqdm(unit="docs", total=len(movies_json))
+    for ok, action in helpers.parallel_bulk(es_client, actions_generator(movies_json, args.index_name), chunk_size=10):
+        progress.update(1)
+
+    es_client.indices.put_settings(index=args.index_name, settings={'index.number_of_replicas': 1})
+        
+    print("All tasks completed successfully.")
+
+if __name__ == "__main__":
+    main()

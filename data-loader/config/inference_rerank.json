@@ -1,0 +1,12 @@
+{
+  "task_type": "rerank",
+  "service": "elasticsearch",
+  "service_settings": {
+    "num_allocations": 2,
+    "num_threads": 2,
+    "model_id": ".rerank-v1"
+  },
+  "task_settings": {
+    "return_documents": true
+  }
+}
