@@ -6,18 +6,22 @@ const HybridConnector = new ElasticsearchAPIConnector({
   apiKey: process.env.ES_API_KEY
 },(requestBody, requestState, queryConfig) => {
 
-    if (!requestState.searchTerm) return requestBody;
+  if (!requestState.searchTerm) return requestBody;
 
-    const body = {
-      retriever: {
-        rrf: {
-          retrievers: [
-            {
+  const body = {
+    retriever: {
+      linear: {
+        retrievers: [
+          {
+            retriever: {
               standard: {
-                query: {}
+                query: requestBody.query
               }
             },
-            {
+            weight: 1
+          },
+          {
+            retriever: {
               standard: {
                 query: {
                   semantic: {
@@ -26,24 +30,23 @@ const HybridConnector = new ElasticsearchAPIConnector({
                   }
                 }
               }
-            }
-          ],
-          rank_window_size: 200,
-          rank_constant: 1
-        }
+            },
+            weight: 3
+          }
+        ],
+        rank_window_size: 100
       }
     }
+  }
 
-    body.retriever.rrf.retrievers[0].standard.query = requestBody.query;
+  //delete the original query and sort from requestBody
+  delete requestBody.query;
+  delete requestBody.sort;
 
-    //delete the original query and sort from requestBody
-    delete requestBody.query;
-    delete requestBody.sort;
+  //adding the new "retriever" clause to the requestBody
+  requestBody.retriever = body.retriever;
 
-    //adding the new "retriever" clause to the requestBody
-    requestBody.retriever = body.retriever;
-
-    return requestBody;
+  return requestBody;
   });
 
 export default HybridConnector;
